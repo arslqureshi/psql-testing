@@ -2,9 +2,9 @@
   "name": "express-postgresql",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "main": "dist/src/server.js",
   "scripts": {
-    "start": "tsc && nodemon app.js",
+    "start": "tsc && nodemon server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

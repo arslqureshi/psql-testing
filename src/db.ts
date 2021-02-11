@@ -1,4 +1,4 @@
-const pg = require('pg');
+import pg from 'pg'
 
 const pool = new  pg.Pool({
      user: "postgres",
@@ -8,7 +8,7 @@ const pool = new  pg.Pool({
      database: "perntodo"
 })
 
-module.exports = pool;
+export default pool;
 
 /*
      psql -U postgres = select postgres user in psql
