@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import router from '../routes/main.route';
 
-
 class App {
     public app : any;
     public PORT: String;

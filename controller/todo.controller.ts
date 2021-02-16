@@ -1,4 +1,3 @@
-import todo from '../models/todo.model';
 import pool from '../src/db'; 
 
 const TodoController =  {

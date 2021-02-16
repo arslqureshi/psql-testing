@@ -5,7 +5,7 @@ CREATE TABLE todo(
     description VARCHAR(255)
 );
 
-CREATE TABLE user {
+CREATE TABLE person(
     id SERIAL PRIMARY KEY,
     email VARCHAR(225),
     password VARCHAR(225),
@@ -13,5 +13,5 @@ CREATE TABLE user {
     userName VARCHAR(225),
     phoneNumber VARCHAR(225),
     date DATE,
-    active BOOL,
-}
+    active BOOLEAN
+);
