@@ -1,10 +1,5 @@
 CREATE DATABASE fyp;
 
-CREATE TABLE todo(
-    id SERIAL PRIMARY KEY,
-    description VARCHAR(255)
-);
-
 CREATE TABLE person(
     id SERIAL PRIMARY KEY,
     email VARCHAR(225),

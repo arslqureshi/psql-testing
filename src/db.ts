@@ -2,10 +2,10 @@ import pg from 'pg'
 
 const pool = new  pg.Pool({
      user: "postgres",
-     password: "7399",
-     host: "localhost",
+     password: "fypdatabase",
+     host: "fyp.crek3zbhhhff.us-east-2.rds.amazonaws.com",
      port: "5432",
-     database: "perntodo"
+     database: "fyp"
 })
 
 export default pool;

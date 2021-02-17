@@ -3,7 +3,7 @@ interface User {
     email: String;
     password: String;
     role: String;
-    date: String;
+    date: Date;
     active: Boolean;
     userName: String;
     phoneNumber: String;
