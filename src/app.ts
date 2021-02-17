@@ -21,7 +21,7 @@ class App {
         this.app.use('/', router);
     }
     public createServer() {
-        this.app.listen(3000, () => {
+        this.app.listen(process.env.PORT, () => {
             console.log("Server started at port 3000");
         })
     }
