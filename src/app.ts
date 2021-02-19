@@ -5,10 +5,10 @@ import router from '../routes/main.route';
 
 class App {
     public app : any;
-    public PORT: String;
+    public PORT: any;
     constructor() {
         this.app = express();
-        this.PORT = process.env.PORT;
+        this.PORT = process.env.PORT || 3000;
         this.initMiddleware();
         this.initRoutes();
     }
@@ -21,7 +21,7 @@ class App {
         this.app.use('/', router);
     }
     public createServer() {
-        this.app.listen(process.env.PORT || 3000, () => {
+        this.app.listen(this.PORT, () => {
             console.log("Server started at port 3000");
         })
     }
