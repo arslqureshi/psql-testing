@@ -7,6 +7,9 @@ const express_1 = __importDefault(require("express"));
 const todo_route_1 = __importDefault(require("./todo.route"));
 const user_route_1 = __importDefault(require("./user.route"));
 const router = express_1.default.Router();
+router.get('/', (req, res) => {
+    res.send('hello from server');
+});
 router.use('/todo', todo_route_1.default);
 router.use('/user', user_route_1.default);
 exports.default = router;

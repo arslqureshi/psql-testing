@@ -26,9 +26,6 @@ class App {
         this.app.listen(this.PORT, () => {
             console.log("Server started at port 3000");
         });
-        this.app.get('/', (req, res) => {
-            res.send("hello from server");
-        });
     }
 }
 exports.default = App;

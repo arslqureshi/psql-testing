@@ -18,11 +18,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const UserController = {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.setHeader("Access-Control-Allow-Credentials", "true");
-            res.setHeader("Access-Control-Max-Age", "1800");
-            res.setHeader("Access-Control-Allow-Headers", "content-type");
-            res.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS");
             let userData = {};
             userData = req.body;
             const check = yield db_1.default.query("SELECT * FROM person WHERE email=$1;", [req.body.email]);
