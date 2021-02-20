@@ -10,6 +10,11 @@ const router = express_1.default.Router();
 router.get('/', (req, res) => {
     res.send('hello from server');
 });
+router.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 router.use('/todo', todo_route_1.default);
 router.use('/user', user_route_1.default);
 exports.default = router;
