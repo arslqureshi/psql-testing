@@ -14,8 +14,8 @@ class App {
     }
     private initMiddleware() {
         this.app.use(cors({
-            "origin": "*",
-            "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+            origin: "*",
+            methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         }));
         this.app.use(express.json());
         dotenv.config();

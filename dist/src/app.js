@@ -16,8 +16,8 @@ class App {
     }
     initMiddleware() {
         this.app.use(cors_1.default({
-            "origin": "*",
-            "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+            origin: "*",
+            methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         }));
         this.app.use(express_1.default.json());
         dotenv_1.default.config();
