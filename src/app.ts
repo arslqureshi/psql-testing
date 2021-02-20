@@ -13,7 +13,10 @@ class App {
         this.initRoutes();
     }
     private initMiddleware() {
-        this.app.use(cors());
+        this.app.use(cors({
+            "origin": "*",
+            "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        }));
         this.app.use(express.json());
         dotenv.config();
     }

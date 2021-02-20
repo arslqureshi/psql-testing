@@ -1,5 +1,5 @@
 {
-  "name": "express-postgresql",
+  "name": "pfy-backend",
   "version": "1.0.0",
   "description": "Backend Of Fyp",
   "main": "dist/src/server.js",
