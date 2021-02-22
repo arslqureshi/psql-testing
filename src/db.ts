@@ -6,7 +6,6 @@ const pool = new  pg.Pool({
      host: "fyp.crek3zbhhhff.us-east-2.rds.amazonaws.com",
      port: "5432",
      database: "fyp",
-     insecureAuth: true,
 })
 
 export default pool;

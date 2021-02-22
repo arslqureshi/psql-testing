@@ -5,7 +5,7 @@ import authGuard from './authGuard.route';
 
 let UserRouter = Express.Router();
 
-UserRouter.post('/', UserController.register);
+UserRouter.post('/',authGuard, UserController.register);
 UserRouter.get('/', UserController.get)
 
 export default UserRouter;

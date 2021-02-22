@@ -7,8 +7,8 @@ import authGuard from './authGuard.route';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+  // res.setHeader("Access-Control-Allow-Origin", "*");
+  // res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
   res.send('hello from server');
 })
 

@@ -8,8 +8,8 @@ const todo_route_1 = __importDefault(require("./todo.route"));
 const user_route_1 = __importDefault(require("./user.route"));
 const router = express_1.default.Router();
 router.get('/', (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+    // res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
     res.send('hello from server');
 });
 router.use('/todo', todo_route_1.default);

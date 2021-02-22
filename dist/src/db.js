@@ -10,7 +10,6 @@ const pool = new pg_1.default.Pool({
     host: "fyp.crek3zbhhhff.us-east-2.rds.amazonaws.com",
     port: "5432",
     database: "fyp",
-    insecureAuth: true,
 });
 exports.default = pool;
 /*
