@@ -22,7 +22,7 @@ const UserController = {
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
             res.header('auth-token', token);
-            res.send(result.rows[0]);
+            res.json().send(result.rows[0]);
         }
     },
     async get (req, res) {
