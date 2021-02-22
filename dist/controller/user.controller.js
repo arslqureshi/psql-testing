@@ -30,7 +30,7 @@ const UserController = {
                 const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [userData.email, userData.password, userData.role, new Date(), userData.active, userData.userName, userData.phoneNumber]);
                 const token = jsonwebtoken_1.default.sign({ _id: result.rows[0].id }, process.env.TOKEN_SECRET);
                 res.header('auth-token', token);
-                res.send(result.rows[0]);
+                res.json().send(result.rows[0]);
             }
         });
     },
