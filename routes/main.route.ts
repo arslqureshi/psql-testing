@@ -5,10 +5,10 @@ import UserRouter from './user.route';
 import authGuard from './authGuard.route';
 
 const router = express.Router();
+import emailController from '../controller/email.controller';
 
 router.get('/', (req, res) => {
-  // res.setHeader("Access-Control-Allow-Origin", "*");
-  // res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+  // emailController.sendmail("testing", "Testing email", "arslq7@gmail.com");
   res.send('hello from server');
 })
 

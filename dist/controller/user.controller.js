@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../src/db"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const email_controller_1 = __importDefault(require("./email.controller"));
 const UserController = {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -38,6 +39,30 @@ const UserController = {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield db_1.default.query("SELECT * FROM person;");
             res.send(data.rows);
+        });
+    },
+    resetPasswordRequest(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email } = yield req.body;
+            const result = yield db_1.default.query('SELECT * FROM person WHERE email=$1', [email]);
+            if (result.rows.length) {
+                const salt = yield bcryptjs_1.default.genSalt(10);
+                const token = yield bcryptjs_1.default.hash(result.rows[0].id.toString(), salt);
+                const clientUrl = "http://localhost:4200";
+                email_controller_1.default.sendmail("Reset Password", '<h4><b>Reset Password</b></h4>' +
+                    '<p>To reset your password, complete this form:</p>' +
+                    '<a href=' + clientUrl + 'reset/' + result.rows[0].id + '/' + token + '">' + clientUrl + 'reset/' + result.rows[0].id + '/' + token + '</a>' +
+                    '<br><br>' +
+                    '<p>--Team</p>', result.rows[0].email);
+                res.send("Email sent");
+            }
+            else {
+                res.status(404).send("Email not found");
+            }
+        });
+    },
+    resetPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
         });
     }
 };

@@ -7,7 +7,9 @@ const express_1 = __importDefault(require("express"));
 const user_controller_1 = __importDefault(require("../controller/user.controller"));
 const authGuard_route_1 = __importDefault(require("./authGuard.route"));
 let UserRouter = express_1.default.Router();
-UserRouter.post('/', authGuard_route_1.default, user_controller_1.default.register);
-UserRouter.get('/', user_controller_1.default.get);
+UserRouter.post('/', user_controller_1.default.register);
+UserRouter.get('/', authGuard_route_1.default, user_controller_1.default.get);
+UserRouter.post('/resetPasswordRequest', user_controller_1.default.resetPasswordRequest);
+UserRouter.post('/resetPassword', user_controller_1.default.resetPassword);
 exports.default = UserRouter;
 //# sourceMappingURL=user.route.js.map
