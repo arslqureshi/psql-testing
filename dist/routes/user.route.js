@@ -9,6 +9,7 @@ const authGuard_route_1 = __importDefault(require("./authGuard.route"));
 let UserRouter = express_1.default.Router();
 UserRouter.post('/', user_controller_1.default.register);
 UserRouter.get('/', authGuard_route_1.default, user_controller_1.default.get);
+UserRouter.post('/login', user_controller_1.default.login);
 UserRouter.post('/resetPasswordRequest', user_controller_1.default.resetPasswordRequest);
 UserRouter.post('/resetPassword', user_controller_1.default.resetPassword);
 exports.default = UserRouter;

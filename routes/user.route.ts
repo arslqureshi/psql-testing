@@ -6,8 +6,9 @@ import authGuard from './authGuard.route';
 let UserRouter = Express.Router();
 
 UserRouter.post('/', UserController.register);
-UserRouter.get('/',authGuard, UserController.get)
-UserRouter.post('/resetPasswordRequest', UserController.resetPasswordRequest)
-UserRouter.post('/resetPassword', UserController.resetPassword)
+UserRouter.get('/',authGuard, UserController.get);
+UserRouter.post('/login', UserController.login);
+UserRouter.post('/resetPasswordRequest', UserController.resetPasswordRequest);
+UserRouter.post('/resetPassword', UserController.resetPassword);
 
 export default UserRouter;

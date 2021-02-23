@@ -26,6 +26,25 @@ const UserController = {
             res.json().send(result.rows[0]);
         }
     },
+    async login(req, res) {
+        let {email, password} = req.body;
+        const userCheck = await pool.query(
+            "SELECT * FROM person WHERE email=$1;",
+            [req.body.email]
+        );
+        if(userCheck.rows.length){
+            const passwordCheck = await bcrypt.compare(password, userCheck.rows[0].password);
+            if(passwordCheck) {
+                const token = await jwt.sign({_id: userCheck.rows[0].id}, process.env.TOKEN_SECRET);
+                res.header('auth-token', token);
+                res.send(userCheck.rows[0]);
+            } else {
+                res.status(400).send("Incorrect Password");
+            }
+        } else {    
+            res.status(404).send("User not found");
+        }
+    },
     async get (req, res) {
         const data = await pool.query(
             "SELECT * FROM person;"

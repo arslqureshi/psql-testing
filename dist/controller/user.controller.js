@@ -35,6 +35,26 @@ const UserController = {
             }
         });
     },
+    login(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let { email, password } = req.body;
+            const userCheck = yield db_1.default.query("SELECT * FROM person WHERE email=$1;", [req.body.email]);
+            if (userCheck.rows.length) {
+                const passwordCheck = yield bcryptjs_1.default.compare(password, userCheck.rows[0].password);
+                if (passwordCheck) {
+                    const token = jsonwebtoken_1.default.sign({ _id: userCheck.rows[0].id }, process.env.TOKEN_SECRET);
+                    res.header('auth-token', token);
+                    res.json().send(userCheck.rows[0]);
+                }
+                else {
+                    res.status(400).send("Incorrect Password");
+                }
+            }
+            else {
+                res.status(404).send("User not found");
+            }
+        });
+    },
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield db_1.default.query("SELECT * FROM person;");
@@ -63,6 +83,17 @@ const UserController = {
     },
     resetPassword(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            let { id, token, password } = req.body;
+            const tokenCompareResult = yield bcryptjs_1.default.compare(id, token);
+            if (tokenCompareResult) {
+                const salt = yield bcryptjs_1.default.genSalt(10);
+                password = yield bcryptjs_1.default.hash(password, salt);
+                const query = yield db_1.default.query('UPDATE person SET password=$1 WHERE id=$2 returning *', [password, id]);
+                res.send("Password Updated");
+            }
+            else {
+                res.status(403).send("Invalid Token");
+            }
         });
     }
 };
