@@ -12,5 +12,6 @@ UserRouter.get('/', authGuard_route_1.default, user_controller_1.default.get);
 UserRouter.post('/login', user_controller_1.default.login);
 UserRouter.post('/resetPasswordRequest', user_controller_1.default.resetPasswordRequest);
 UserRouter.post('/resetPassword', user_controller_1.default.resetPassword);
+UserRouter.post('/username', user_controller_1.default.checkUsername);
 exports.default = UserRouter;
 //# sourceMappingURL=user.route.js.map

@@ -95,6 +95,18 @@ const UserController = {
                 res.status(403).send("Invalid Token");
             }
         });
+    },
+    checkUsername(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let { userName } = req.body;
+            const check = yield db_1.default.query("SELECT userName FROM person WHERE userName=$1;", [userName]);
+            if (check.rows.length) {
+                res.status(400).send("Username not available");
+            }
+            else {
+                res.send("Username is available");
+            }
+        });
     }
 };
 exports.default = UserController;

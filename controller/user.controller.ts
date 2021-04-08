@@ -85,7 +85,18 @@ const UserController = {
         } else {
             res.status(403).send("Invalid Token")
         }
-
+    },
+    async checkUsername(req, res) {
+        let {userName} = req.body;
+        const check = await pool.query(
+            "SELECT userName FROM person WHERE userName=$1;",
+            [userName]
+        );
+        if(check.rows.length) {
+            res.status(400).send("Username not available");
+        } else {
+            res.send("Username is available");
+        }
     }
 }
 export default UserController;
