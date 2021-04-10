@@ -22,12 +22,10 @@ const UserController = {
                 [userData.email, userData.password, userData.role, new Date(), userData.active, userData.userName, userData.phoneNumber]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
-            // res.header('auth-token', token);
+            res.header('auth-token', token);
             let data = result.rows[0];
-            data = {
-                ...data,
-                token: token
-            }
+            data.token = token;
+            console.log(data);
             res.json().send(data);
         }
     },
@@ -41,8 +39,10 @@ const UserController = {
             const passwordCheck = await bcrypt.compare(password, userCheck.rows[0].password);
             if(passwordCheck) {
                 const token = await jwt.sign({_id: userCheck.rows[0].id}, process.env.TOKEN_SECRET);
-                res.header('auth-token', token);
-                res.send(userCheck.rows[0]);
+                let data = userCheck.rows[0];
+                data.token = token;
+                console.log(data);
+                res.send(data);
             } else {
                 res.status(400).send("Incorrect Password");
             }
