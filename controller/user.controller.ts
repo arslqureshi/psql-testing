@@ -22,8 +22,13 @@ const UserController = {
                 [userData.email, userData.password, userData.role, new Date(), userData.active, userData.userName, userData.phoneNumber]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
-            res.header('auth-token', token);
-            res.json().send(result.rows[0]);
+            // res.header('auth-token', token);
+            let data = result.rows[0];
+            data = {
+                ...data,
+                token: token
+            }
+            res.json().send(data);
         }
     },
     async login(req, res) {
