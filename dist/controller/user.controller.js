@@ -46,8 +46,10 @@ const UserController = {
                 const passwordCheck = yield bcryptjs_1.default.compare(password, userCheck.rows[0].password);
                 if (passwordCheck) {
                     const token = yield jsonwebtoken_1.default.sign({ _id: userCheck.rows[0].id }, process.env.TOKEN_SECRET);
-                    res.header('auth-token', token);
-                    res.send(userCheck.rows[0]);
+                    let data = userCheck.rows[0];
+                    data.token = token;
+                    console.log(data);
+                    res.send(data);
                 }
                 else {
                     res.status(400).send("Incorrect Password");

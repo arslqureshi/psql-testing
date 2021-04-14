@@ -22,11 +22,10 @@ const UserController = {
                 [userData.email, userData.password, userData.role, new Date(), userData.active, userData.userName, userData.phoneNumber]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
-            res.header('auth-token', token);
             let data = result.rows[0];
             data.token = token;
             console.log(data);
-            res.json().send(data);
+            res.send(data);
         }
     },
     async login(req, res) {
