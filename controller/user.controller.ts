@@ -19,7 +19,7 @@ const UserController = {
             userData.password = await bcrypt.hash(userData.password, salt);
             const result = await pool.query(
                 'INSERT INTO person (email, password, role, date, active, userName, phoneNumber) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-                [userData.email, userData.password, userData.role, new Date(), userData.active, userData.userName, userData.phoneNumber]
+                [userData.email, userData.password, 'unset', new Date(), true, userData.userName, userData.phoneNumber]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
             let data = result.rows[0];
