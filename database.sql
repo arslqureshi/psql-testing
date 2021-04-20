@@ -12,20 +12,16 @@ CREATE TABLE person(
 );
 
 CREATE TABLE product (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(225),
-    description TEXT,
-    category VARCHAR(225),
-    price VARCHAR(225),
-    like INT,
-);
-
-CREATE TABLE product (
-    price text,
-    name text,
+    price VARCHAR(20),
+    name VARCHAR(255),
     id serial NOT NULL,
     description text,
-    category text,
+    category VARCHAR(20),
     likes integer,
-    PRIMARY KEY (id)
+    image VARCHAR(255),
+	sellerId integer,
+    PRIMARY KEY (id),
+	CONSTRAINT sellerId
+    	FOREIGN KEY(sellerId) 
+			REFERENCES person(person_id)
 );
