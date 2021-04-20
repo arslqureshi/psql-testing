@@ -28,13 +28,12 @@ const UserController = {
             else {
                 const salt = yield bcryptjs_1.default.genSalt(10);
                 userData.password = yield bcryptjs_1.default.hash(userData.password, salt);
-                const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [userData.email, userData.password, userData.role, new Date(), userData.active, userData.userName, userData.phoneNumber]);
+                const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [userData.email, userData.password, 'unset', new Date(), true, userData.userName, userData.phoneNumber]);
                 const token = jsonwebtoken_1.default.sign({ _id: result.rows[0].id }, process.env.TOKEN_SECRET);
-                res.header('auth-token', token);
                 let data = result.rows[0];
                 data.token = token;
                 console.log(data);
-                res.json().send(data);
+                res.send(data);
             }
         });
     },

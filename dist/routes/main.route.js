@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const todo_route_1 = __importDefault(require("./todo.route"));
 const user_route_1 = __importDefault(require("./user.route"));
+const product_route_1 = __importDefault(require("./product.route"));
 const router = express_1.default.Router();
 router.get('/', (req, res) => {
     // emailController.sendmail("testing", "Testing email", "arslq7@gmail.com");
@@ -13,5 +14,6 @@ router.get('/', (req, res) => {
 });
 router.use('/todo', todo_route_1.default);
 router.use('/user', user_route_1.default);
+router.use('/product', product_route_1.default);
 exports.default = router;
 //# sourceMappingURL=main.route.js.map

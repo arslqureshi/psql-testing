@@ -1,6 +1,7 @@
 import express from 'express'
 import todoRouter from './todo.route';
 import UserRouter from './user.route';
+import ProductRouter from './product.route';
 
 import authGuard from './authGuard.route';
 
@@ -14,5 +15,6 @@ router.get('/', (req, res) => {
 
 router.use('/todo', todoRouter);
 router.use('/user', UserRouter);
+router.use('/product', ProductRouter);
 
 export default router;
