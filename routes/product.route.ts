@@ -7,5 +7,6 @@ let ProductRouter = Express.Router();
 
 ProductRouter.post('/', ProductController.add);
 ProductRouter.get('/:sellerId', ProductController.getBySellerId);
+ProductRouter.delete('/:productId', ProductController.deleteById);
 
 export default ProductRouter;

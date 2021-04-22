@@ -30,9 +30,9 @@ const ProductController = {
     getBySellerId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userData = req.body;
-                const result = yield db_1.default.query('SELECT * FROM product WHERE sellerId = $1', [userData.sellerId]);
-                console.log(result);
+                const sellerId = req.params.sellerId;
+                const result = yield db_1.default.query('SELECT * FROM product WHERE sellerId = $1', [sellerId]);
+                console.log(result.rows);
                 res.send(result.rows);
             }
             catch (e) {

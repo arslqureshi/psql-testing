@@ -26,6 +26,21 @@ const ProductController =  {
         } catch(e) {
             console.log(e.message)
         }
+    },
+    async deleteById(req, res) {
+        try {
+            const id = req.params.productId;
+            const query = await pool.query(
+                'DELETE FROM product WHERE id=$1',
+                [id]
+            )
+            res.send(query);
+        } catch(e) {
+            console.log(e.message)
+        }
+    },
+    async get(req,res) {
+
     }
 }
 export default ProductController;

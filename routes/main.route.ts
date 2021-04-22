@@ -1,5 +1,4 @@
 import express from 'express'
-import todoRouter from './todo.route';
 import UserRouter from './user.route';
 import ProductRouter from './product.route';
 
@@ -13,7 +12,6 @@ router.get('/', (req, res) => {
   res.send('hello from server');
 })
 
-router.use('/todo', todoRouter);
 router.use('/user', UserRouter);
 router.use('/product', ProductRouter);
 
