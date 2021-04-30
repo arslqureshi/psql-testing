@@ -39,6 +39,29 @@ const ProductController = {
                 console.log(e.message);
             }
         });
+    },
+    deleteById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.productId;
+                const query = yield db_1.default.query('DELETE FROM product WHERE id=$1', [id]);
+                res.send(query);
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
+    },
+    get(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const query = yield db_1.default.query('SELECT * FROM product INNER JOIN person ON person.id = product.sellerId');
+                console.log(query);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
 };
 exports.default = ProductController;

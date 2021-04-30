@@ -40,7 +40,14 @@ const ProductController =  {
         }
     },
     async get(req,res) {
-
+        try {
+            const query = await pool.query(
+                'SELECT price, name, product.id, description, category, likes, sellerId, image, username FROM product INNER JOIN person ON person.id = product.sellerId ORDER BY product.id DESC'
+            );
+            res.send(query.rows)
+        } catch(error) {
+            console.log(error);
+        }
     }
 }
 export default ProductController;
