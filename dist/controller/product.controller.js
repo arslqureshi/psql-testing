@@ -55,11 +55,24 @@ const ProductController = {
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = yield db_1.default.query('SELECT * FROM product INNER JOIN person ON person.id = product.sellerId');
-                console.log(query);
+                const query = yield db_1.default.query('SELECT price, name, product.id, description, category, likes, sellerId, image, username FROM product INNER JOIN person ON person.id = product.sellerId ORDER BY product.id DESC');
+                res.send(query.rows);
             }
             catch (error) {
                 console.log(error);
+            }
+        });
+    },
+    getProductById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.productId;
+                console.log(id);
+                const query = yield db_1.default.query('SELECT * FROM product WHERE id = $1', [id]);
+                res.send(query.rows[0]);
+            }
+            catch (e) {
+                console.log(e);
             }
         });
     }

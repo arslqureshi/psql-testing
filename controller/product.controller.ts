@@ -48,6 +48,32 @@ const ProductController =  {
         } catch(error) {
             console.log(error);
         }
+    },
+    async getProductById(req, res) {
+        try {
+        
+            const id = req.params.productId;
+            console.log(id);
+            const query = await pool.query(
+                'SELECT * FROM product WHERE id = $1',
+                [id]
+            )
+            res.send(query.rows[0]);
+        } catch(e) {
+            console.log(e);
+        }
+    },
+    async edit(req,res) {
+        try {
+            const data = req.body;
+            const query = await pool.query(
+                'UPDATE product SET name=$1, category=$2, description=$3, price=$4 WHERE id=$5',
+                [data.name, data.category, data.description, data.price, data.id]
+            )
+            res.send(query);
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 export default ProductController;
