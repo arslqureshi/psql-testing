@@ -6,6 +6,7 @@ import authGuard from './authGuard.route';
 
 const router = express.Router();
 import emailController from '../controller/email.controller';
+import StripeRouter from './stripe.route';
 
 router.get('/', (req, res) => {
   // emailController.sendmail("testing", "Testing email", "arslq7@gmail.com");
@@ -14,5 +15,6 @@ router.get('/', (req, res) => {
 
 router.use('/user', UserRouter);
 router.use('/product', ProductRouter);
+router.use('/stripe', StripeRouter)
 
 export default router;

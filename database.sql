@@ -19,6 +19,8 @@ CREATE TABLE product (
     category VARCHAR(20),
     likes integer,
     image VARCHAR(255),
+    stripeProductId VARCHAR(225),
+    stripePriceId VARCHAR(225),
 	sellerId integer,
     PRIMARY KEY (id),
 	CONSTRAINT sellerId

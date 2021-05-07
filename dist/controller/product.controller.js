@@ -75,6 +75,18 @@ const ProductController = {
                 console.log(e);
             }
         });
+    },
+    edit(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = req.body;
+                const query = yield db_1.default.query('UPDATE product SET name=$1, category=$2, description=$3, price=$4 WHERE id=$5', [data.name, data.category, data.description, data.price, data.id]);
+                res.send(query);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
 };
 exports.default = ProductController;
