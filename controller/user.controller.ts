@@ -3,6 +3,7 @@ import pool from '../src/db';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import emailController from './email.controller';
+import StripeController from './stripe.controller';
 
 const UserController = {
     async register (req, res) {
@@ -17,9 +18,10 @@ const UserController = {
         } else {
             const salt = await bcrypt.genSalt(10);
             userData.password = await bcrypt.hash(userData.password, salt);
+            const customer = await StripeController.createCustomer({email: userData.email});
             const result = await pool.query(
-                'INSERT INTO person (email, password, role, date, active, userName, phoneNumber) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-                [userData.email, userData.password, 'unset', new Date(), true, userData.userName, userData.phoneNumber]
+                'INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+                [userData.email, userData.password, 'unset', new Date(), true, userData.userName, userData.phoneNumber, customer.id]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
             let data = result.rows[0];
