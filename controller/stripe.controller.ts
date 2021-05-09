@@ -28,6 +28,10 @@ const StripeController = {
     async createCard(id, data) {
         const card = await stripe.customers.createSource(id, {source: data}) //accepts customer id followed by object containing new data
         return card;
+    },
+    async deleteCard(customerId, cardId) {
+        const card = await stripe.customers.deleteSource(customerId, cardId) //accepts customer id followed by object containing new data
+        return card;
     }
 }
 

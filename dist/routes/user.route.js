@@ -13,5 +13,7 @@ UserRouter.post('/login', user_controller_1.default.login);
 UserRouter.post('/resetPasswordRequest', user_controller_1.default.resetPasswordRequest);
 UserRouter.post('/resetPassword', user_controller_1.default.resetPassword);
 UserRouter.post('/username', user_controller_1.default.checkUsername);
+UserRouter.post('/createCard', user_controller_1.default.createCard);
+UserRouter.get('/getCards/:personId', user_controller_1.default.getCards);
 exports.default = UserRouter;
 //# sourceMappingURL=user.route.js.map

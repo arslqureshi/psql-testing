@@ -113,6 +113,34 @@ const UserController = {
                 res.send("Username is available");
             }
         });
+    },
+    createCard(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const cardData = req.body;
+                console.log(cardData);
+                const card = yield stripe_controller_1.default.createCard(cardData.stripeCustomerId, cardData.source);
+                console.log(card);
+                const result = yield db_1.default.query('INSERT INTO credit_card (lastFourDigits, expiryMonth, expiryYear, ownerName, brand, customerId, personId, stripeCardId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [card.last4, card.exp_month, card.exp_year, card.name, card.brand, cardData.stripeCustomerId, cardData.id, card.id]);
+                res.send(result.rows[0]);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+    },
+    getCards(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.personId;
+                console.log(id);
+                const query = yield db_1.default.query('SELECT * FROM credit_card WHERE personId = $1', [id]);
+                res.send(query.rows[0]);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
     }
 };
 exports.default = UserController;

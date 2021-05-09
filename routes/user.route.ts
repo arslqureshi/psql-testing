@@ -13,6 +13,7 @@ UserRouter.post('/resetPassword', UserController.resetPassword);
 UserRouter.post('/username', UserController.checkUsername);
 UserRouter.post('/createCard', UserController.createCard);
 UserRouter.get('/getCards/:personId', UserController.getCards);
+UserRouter.delete('/deleteCard/:customerId/:cardId', UserController.deleteCard);
 
 
 export default UserRouter;

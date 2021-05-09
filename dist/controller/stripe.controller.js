@@ -19,13 +19,13 @@ const StripeController = {
     },
     createPrice(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const price = yield stripe.prices.create(data); //accepts an object
+            const price = yield stripe.prices.create(data); //accepts an object containing product id
             return price;
         });
     },
     createProduct(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = yield stripe.products.create(data); //accepts an object    
+            const product = yield stripe.products.create(data); //accepts an object 
             return product;
         });
     },
@@ -37,14 +37,20 @@ const StripeController = {
     },
     updateProduct(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = yield stripe.products.update(id, data); //accepts id followed by object containing new data  
+            const product = yield stripe.products.update(id, data); //accepts product id followed by object containing new data  
             return product;
         });
     },
     updatePrice(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const price = yield stripe.prices.update(id, data); //accepts id followed by object containing new data    
+            const price = yield stripe.prices.update(id, data); //accepts price id followed by object containing new data    
             return price;
+        });
+    },
+    createCard(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const card = yield stripe.customers.createSource(id, { source: data }); //accepts customer id followed by object containing new data
+            return card;
         });
     }
 };

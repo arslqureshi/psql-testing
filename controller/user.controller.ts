@@ -127,7 +127,22 @@ const UserController = {
                 'SELECT * FROM credit_card WHERE personId = $1',
                 [id]
             )
-            res.send(query.rows[0]);
+            res.send(query.rows);
+        } catch(e) {
+            console.log(e);
+        }
+    },
+    async deleteCard(req,res) {
+        try {
+            const customerId = req.params.customerId;
+            const cardId = req.params.cardId;
+            console.log('ids', customerId, cardId);
+            await StripeController.deleteCard(customerId, cardId);
+            const query = await pool.query(
+                'DELETE FROM credit_card WHERE stripecardid=$1',
+                [cardId]
+            )
+            res.send(query);
         } catch(e) {
             console.log(e);
         }
