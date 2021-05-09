@@ -11,13 +11,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const stripe = require('stripe')('sk_test_51IoR81L6orHLq7kW3qZ0inGnHFU6nyDbK1ZTRnY3oyuTgz7ybRJVxTihnrg1tp0j5r9VoPBqbOjKGFMPXQnR3iGu00yCsD8jQn');
 const StripeController = {
-    createCustomer(req, res) {
+    createCustomer(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const customer = yield stripe.customers.create({
-                email: req.body.email
-            });
-            console.log(customer.id);
-            res.send(customer.id);
+            const customer = yield stripe.customers.create(data); // accepts an object
+            return customer;
+        });
+    },
+    createPrice(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const price = yield stripe.prices.create(data); //accepts an object
+            return price;
+        });
+    },
+    createProduct(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const product = yield stripe.products.create(data); //accepts an object    
+            return product;
+        });
+    },
+    deleteProduct(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deleted = yield stripe.products.del(data); //accepts stripe product id
+            return deleted;
+        });
+    },
+    updateProduct(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const product = yield stripe.products.update(id, data); //accepts id followed by object containing new data  
+            return product;
+        });
+    },
+    updatePrice(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const price = yield stripe.prices.update(id, data); //accepts id followed by object containing new data    
+            return price;
         });
     }
 };

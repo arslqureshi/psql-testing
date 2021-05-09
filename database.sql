@@ -31,11 +31,12 @@ CREATE TABLE product (
 
 CREATE TABLE credit_card(
     id serial NOT NULL,
-    lastFoutDegits VARCHAR(4),
+    lastFourDigits VARCHAR(4),
     expiryMonth VARCHAR(2),
     expiryYear VARCHAR(4),
     ownerName VARCHAR(225),
     brand VARCHAR(225),
+    stripeCardId VARCHAR(225),
     customerId VARCHAR(225),
     personId integer,
     PRIMARY KEY(id),

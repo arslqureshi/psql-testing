@@ -11,5 +11,8 @@ UserRouter.post('/login', UserController.login);
 UserRouter.post('/resetPasswordRequest', UserController.resetPasswordRequest);
 UserRouter.post('/resetPassword', UserController.resetPassword);
 UserRouter.post('/username', UserController.checkUsername);
+UserRouter.post('/createCard', UserController.createCard);
+UserRouter.get('/getCards/:personId', UserController.getCards);
+
 
 export default UserRouter;

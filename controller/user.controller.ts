@@ -21,7 +21,7 @@ const UserController = {
             const customer = await StripeController.createCustomer({email: userData.email});
             const result = await pool.query(
                 'INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-                [userData.email, userData.password, 'unset', new Date(), true, userData.userName, userData.phoneNumber, customer.id]
+                [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
             let data = result.rows[0];
@@ -102,6 +102,34 @@ const UserController = {
             res.status(400).send("Username not available");
         } else {
             res.send("Username is available");
+        }
+    },
+    async createCard(req, res) {
+        try {
+            const cardData = req.body;
+            console.log(cardData);
+            const card = await StripeController.createCard(cardData.stripeCustomerId, cardData.source)
+            console.log(card);
+            const result = await pool.query(
+                'INSERT INTO credit_card (lastFourDigits, expiryMonth, expiryYear, ownerName, brand, customerId, personId, stripeCardId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+                [card.last4, card.exp_month, card.exp_year, card.name, card.brand, cardData.stripeCustomerId, cardData.id, card.id]
+            )
+            res.send(result.rows[0]);
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    async getCards(req,res) {
+        try {
+            const id = req.params.personId;
+            console.log(id);
+            const query = await pool.query(
+                'SELECT * FROM credit_card WHERE personId = $1',
+                [id]
+            )
+            res.send(query.rows[0]);
+        } catch(e) {
+            console.log(e);
         }
     }
 }

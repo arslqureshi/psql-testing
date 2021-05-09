@@ -16,6 +16,7 @@ const db_1 = __importDefault(require("../src/db"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const email_controller_1 = __importDefault(require("./email.controller"));
+const stripe_controller_1 = __importDefault(require("./stripe.controller"));
 const UserController = {
     register(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -28,7 +29,8 @@ const UserController = {
             else {
                 const salt = yield bcryptjs_1.default.genSalt(10);
                 userData.password = yield bcryptjs_1.default.hash(userData.password, salt);
-                const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [userData.email, userData.password, 'unset', new Date(), true, userData.userName, userData.phoneNumber]);
+                const customer = yield stripe_controller_1.default.createCustomer({ email: userData.email });
+                const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id]);
                 const token = jsonwebtoken_1.default.sign({ _id: result.rows[0].id }, process.env.TOKEN_SECRET);
                 let data = result.rows[0];
                 data.token = token;

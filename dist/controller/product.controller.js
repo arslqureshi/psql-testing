@@ -13,19 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../src/db"));
-const stripe = require('stripe')('sk_test_51IoR81L6orHLq7kW3qZ0inGnHFU6nyDbK1ZTRnY3oyuTgz7ybRJVxTihnrg1tp0j5r9VoPBqbOjKGFMPXQnR3iGu00yCsD8jQn');
+const stripe_controller_1 = __importDefault(require("../controller/stripe.controller"));
 const ProductController = {
     add(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userData = req.body;
                 console.log(userData);
-                const product = yield stripe.products.create({
+                const product = yield stripe_controller_1.default.createProduct({
                     name: userData.name,
                     description: userData.description
                 });
-                console.log(product.id);
-                const price = yield stripe.prices.create({
+                const price = yield stripe_controller_1.default.createPrice({
                     unit_amount: userData.price * 100,
                     currency: 'pkr',
                     product: product.id,
@@ -57,7 +56,7 @@ const ProductController = {
             try {
                 const id = req.params.productId;
                 const data = yield db_1.default.query('SELECT stripeProductId FROM product WHERE id=$1', [id]);
-                const deleted = yield stripe.products.del(data.rows[0].stripeProductId);
+                const deleted = yield stripe_controller_1.default.deleteProduct(data.rows[0].stripeProductId);
                 const query = yield db_1.default.query('DELETE FROM product WHERE id=$1', [id]);
                 res.send(query);
             }
@@ -95,14 +94,12 @@ const ProductController = {
             try {
                 const userData = req.body;
                 const data = yield db_1.default.query('SELECT * FROM product where id=$1', [userData.id]);
-                const product = yield stripe.products.update(data.rows[0].stripeProductId, {
+                const product = yield stripe_controller_1.default.updateProduct(data.rows[0].stripeProductId, {
                     name: userData.name,
                     description: data.rows[0].description,
                 });
-                const price = yield stripe.prices.update(data.rows[0].stripePriceId, {
-                    unit_amount: data.rows[0].price * 100
-                });
-                const query = yield db_1.default.query('UPDATE product SET name=$1, category=$2, description=$3, price=$4 WHERE id=$5', [userData.name, userData.category, userData.description, userData.price, userData.id]);
+                const price = yield stripe_controller_1.default.updatePrice(data.rows[0].stripePriceId, { unit_amount: data.rows[0].price * 100 });
+                const query = yield db_1.default.query('UPDATE product SET name=$1, category=$2, description=$3, price=$4, stripeProductId=$5, stripePriceId=$6   WHERE id=$7', [userData.name, userData.category, userData.description, userData.price, product.id, price.id, userData.id]);
                 res.send(query);
             }
             catch (error) {
