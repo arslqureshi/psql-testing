@@ -146,6 +146,10 @@ const UserController = {
         } catch(e) {
             console.log(e);
         }
+    },
+    async Pay(req, res) {
+        const paymentData = req.body;
+        StripeController.createPaymentIntent(paymentData.sourceId, paymentData.price)
     }
 }
 export default UserController;

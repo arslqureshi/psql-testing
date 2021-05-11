@@ -32,6 +32,14 @@ const StripeController = {
     async deleteCard(customerId, cardId) {
         const card = await stripe.customers.deleteSource(customerId, cardId) //accepts customer id followed by object containing new data
         return card;
+    },
+    async createPaymentIntent(sourceId, amount) {
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: amount,
+            currency: 'pkr',
+            payment_method_types: [sourceId],
+            });
+        return paymentIntent          
     }
 }
 
