@@ -19,9 +19,10 @@ const UserController = {
             const salt = await bcrypt.genSalt(10);
             userData.password = await bcrypt.hash(userData.password, salt);
             const customer = await StripeController.createCustomer({email: userData.email});
+            const account = await StripeController.createAccount(userData.email);
             const result = await pool.query(
-                'INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-                [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id]
+                'INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId, stripeConnectedAccountId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+                [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id, account.id]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
             let data = result.rows[0];
@@ -149,7 +150,9 @@ const UserController = {
     },
     async Pay(req, res) {
         const paymentData = req.body;
-        StripeController.createPaymentIntent(paymentData.sourceId, paymentData.price)
+        console.log(paymentData);
+        const intent = await StripeController.createPaymentIntent(paymentData.sourceId, paymentData.price, paymentData.customerId)
+        res.send(intent);
     }
 }
 export default UserController;

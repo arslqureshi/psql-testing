@@ -135,11 +135,33 @@ const UserController = {
                 const id = req.params.personId;
                 console.log(id);
                 const query = yield db_1.default.query('SELECT * FROM credit_card WHERE personId = $1', [id]);
-                res.send(query.rows[0]);
+                res.send(query.rows);
             }
             catch (e) {
                 console.log(e);
             }
+        });
+    },
+    deleteCard(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const customerId = req.params.customerId;
+                const cardId = req.params.cardId;
+                console.log('ids', customerId, cardId);
+                yield stripe_controller_1.default.deleteCard(customerId, cardId);
+                const query = yield db_1.default.query('DELETE FROM credit_card WHERE stripecardid=$1', [cardId]);
+                res.send(query);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+    },
+    Pay(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const paymentData = req.body;
+            const intent = yield stripe_controller_1.default.createPaymentIntent(paymentData.sourceId, paymentData.price);
+            res.send(intent);
         });
     }
 };

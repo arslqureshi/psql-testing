@@ -15,5 +15,7 @@ UserRouter.post('/resetPassword', user_controller_1.default.resetPassword);
 UserRouter.post('/username', user_controller_1.default.checkUsername);
 UserRouter.post('/createCard', user_controller_1.default.createCard);
 UserRouter.get('/getCards/:personId', user_controller_1.default.getCards);
+UserRouter.delete('/deleteCard/:customerId/:cardId', user_controller_1.default.deleteCard);
+UserRouter.post('/pay', user_controller_1.default.Pay);
 exports.default = UserRouter;
 //# sourceMappingURL=user.route.js.map

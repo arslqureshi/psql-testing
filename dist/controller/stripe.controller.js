@@ -52,6 +52,22 @@ const StripeController = {
             const card = yield stripe.customers.createSource(id, { source: data }); //accepts customer id followed by object containing new data
             return card;
         });
+    },
+    deleteCard(customerId, cardId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const card = yield stripe.customers.deleteSource(customerId, cardId); //accepts customer id followed by object containing new data
+            return card;
+        });
+    },
+    createPaymentIntent(sourceId, amount) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const paymentIntent = yield stripe.paymentIntents.create({
+                amount: amount,
+                currency: 'pkr',
+                payment_method: sourceId,
+            });
+            return paymentIntent;
+        });
     }
 };
 exports.default = StripeController;

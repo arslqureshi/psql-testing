@@ -33,14 +33,38 @@ const StripeController = {
         const card = await stripe.customers.deleteSource(customerId, cardId) //accepts customer id followed by object containing new data
         return card;
     },
-    async createPaymentIntent(sourceId, amount) {
+    async createPaymentIntent(sourceId, amount, customerId) {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount,
             currency: 'pkr',
-            payment_method_types: [sourceId],
-            });
-        return paymentIntent          
+            payment_method: sourceId,
+            customer: customerId
+        });
+        console.log(paymentIntent);
+        return paymentIntent
+    },
+    async createAccount(email) {
+        const account = await stripe.accounts.create({
+            type: 'custom',
+            email: email,
+            capabilities: {
+                card_payments: {
+                  requested: true,
+                },
+                transfers: {
+                  requested: true,
+                }
+            }
+        });
+        return account;
     }
+
+    // const secondTransfer = await stripe.transfers.create({
+    //     amount: 2000,
+    //     currency: 'usd',
+    //     destination: '{{OTHER_CONNECTED_STRIPE_ACCOUNT_ID}}',
+    //     transfer_group: '{ORDER10}',
+    //   });
 }
 
 export default StripeController

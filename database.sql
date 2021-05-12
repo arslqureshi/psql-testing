@@ -9,6 +9,7 @@ CREATE TABLE person(
     phoneNumber VARCHAR(225),
     date DATE,
     stripeCustomerId VARCHAR(225),
+    stripeConnectedAccountId VARCHAR(225),
     active BOOLEAN
 );
 
