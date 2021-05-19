@@ -46,16 +46,16 @@ CREATE TABLE credit_card(
 			REFERENCES person(id)
 )
 
-CREATE TABLE order(
+CREATE TABLE orders(
     id serial NOT NULL,
     dateOfOrder DATE,
-    totalPrice VARCHAR(225)
+    totalPrice VARCHAR(225),
     buyerId integer,
     driverId integer,
     PRIMARY KEY(id),
     CONSTRAINT buyerId
     	FOREIGN KEY(buyerId) 
-			REFERENCES person(id)
+			REFERENCES person(id),
     CONSTRAINT driverId
     	FOREIGN KEY(driverId) 
 			REFERENCES person(id)
@@ -64,13 +64,13 @@ CREATE TABLE order(
 CREATE TABLE order_items(
     id serial NOT NULL,
     count integer,
-    subTotal VARCHAR(225)
+    subTotal VARCHAR(225),
     orderId integer,
     productId integer,
     PRIMARY KEY(id),
     CONSTRAINT orderId
     	FOREIGN KEY(orderId) 
-			REFERENCES order(id)
+			REFERENCES orders(id),
     CONSTRAINT productId
     	FOREIGN KEY(productId) 
 			REFERENCES product(id)
