@@ -59,16 +59,41 @@ const StripeController = {
             return card;
         });
     },
-    createPaymentIntent(sourceId, amount) {
+    createPaymentIntent(sourceId, amount, customerId) {
         return __awaiter(this, void 0, void 0, function* () {
             const paymentIntent = yield stripe.paymentIntents.create({
                 amount: amount,
                 currency: 'pkr',
                 payment_method: sourceId,
+                customer: customerId
             });
+            console.log(paymentIntent);
             return paymentIntent;
         });
+    },
+    createAccount(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const account = yield stripe.accounts.create({
+                type: 'custom',
+                email: email,
+                capabilities: {
+                    card_payments: {
+                        requested: true,
+                    },
+                    transfers: {
+                        requested: true,
+                    }
+                }
+            });
+            return account;
+        });
     }
+    // const secondTransfer = await stripe.transfers.create({
+    //     amount: 2000,
+    //     currency: 'usd',
+    //     destination: '{{OTHER_CONNECTED_STRIPE_ACCOUNT_ID}}',
+    //     transfer_group: '{ORDER10}',
+    //   });
 };
 exports.default = StripeController;
 //# sourceMappingURL=stripe.controller.js.map

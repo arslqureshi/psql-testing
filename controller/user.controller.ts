@@ -19,7 +19,10 @@ const UserController = {
             const salt = await bcrypt.genSalt(10);
             userData.password = await bcrypt.hash(userData.password, salt);
             const customer = await StripeController.createCustomer({email: userData.email});
-            const account = await StripeController.createAccount(userData.email);
+            let account = ''
+            if(userData.role == "seller") {
+                account = await StripeController.createAccount(userData.email);
+            }
             const result = await pool.query(
                 'INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId, stripeConnectedAccountId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
                 [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id, account.id]

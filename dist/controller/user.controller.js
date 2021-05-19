@@ -30,7 +30,8 @@ const UserController = {
                 const salt = yield bcryptjs_1.default.genSalt(10);
                 userData.password = yield bcryptjs_1.default.hash(userData.password, salt);
                 const customer = yield stripe_controller_1.default.createCustomer({ email: userData.email });
-                const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id]);
+                const account = yield stripe_controller_1.default.createAccount(userData.email);
+                const result = yield db_1.default.query('INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId, stripeConnectedAccountId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *', [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id, account.id]);
                 const token = jsonwebtoken_1.default.sign({ _id: result.rows[0].id }, process.env.TOKEN_SECRET);
                 let data = result.rows[0];
                 data.token = token;
@@ -160,7 +161,8 @@ const UserController = {
     Pay(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const paymentData = req.body;
-            const intent = yield stripe_controller_1.default.createPaymentIntent(paymentData.sourceId, paymentData.price);
+            console.log(paymentData);
+            const intent = yield stripe_controller_1.default.createPaymentIntent(paymentData.sourceId, paymentData.price, paymentData.customerId);
             res.send(intent);
         });
     }
