@@ -19,7 +19,7 @@ const UserController = {
             const salt = await bcrypt.genSalt(10);
             userData.password = await bcrypt.hash(userData.password, salt);
             const customer = await StripeController.createCustomer({email: userData.email});
-            let account = ''
+            let account;
             if(userData.role == "seller") {
                 account = await StripeController.createAccount(userData.email);
             }

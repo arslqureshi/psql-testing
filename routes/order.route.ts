@@ -4,6 +4,6 @@ import OrderController from '../controller/order.controller';
 
 let OderRouter = Express.Router();
 
-OderRouter.get('/', OrderController.get);
+OderRouter.post('/add', OrderController.add);
 
 export default OderRouter;

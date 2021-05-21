@@ -57,14 +57,16 @@ const StripeController = {
             }
         });
         return account;
+    },
+    async transfer(amount, orderId, connectedAccountId) {
+        const transfer = await stripe.transfers.create({
+            amount: amount,
+            currency: 'pkr',
+            destination: connectedAccountId,
+            transfer_group: orderId,
+          });
+          return transfer;
     }
-
-    // const secondTransfer = await stripe.transfers.create({
-    //     amount: 2000,
-    //     currency: 'usd',
-    //     destination: '{{OTHER_CONNECTED_STRIPE_ACCOUNT_ID}}',
-    //     transfer_group: '{ORDER10}',
-    //   });
 }
 
 export default StripeController

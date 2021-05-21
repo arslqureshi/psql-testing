@@ -87,13 +87,17 @@ const StripeController = {
             });
             return account;
         });
+    },
+    Transfer(orderId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const transfer = yield stripe.transfers.create({
+                amount: 2000,
+                currency: 'pkr',
+                destination: '{{OTHER_CONNECTED_STRIPE_ACCOUNT_ID}}',
+                transfer_group: '{ORDER10}',
+            });
+        });
     }
-    // const secondTransfer = await stripe.transfers.create({
-    //     amount: 2000,
-    //     currency: 'usd',
-    //     destination: '{{OTHER_CONNECTED_STRIPE_ACCOUNT_ID}}',
-    //     transfer_group: '{ORDER10}',
-    //   });
 };
 exports.default = StripeController;
 //# sourceMappingURL=stripe.controller.js.map

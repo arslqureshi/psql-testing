@@ -1,6 +1,7 @@
 import express from 'express'
 import UserRouter from './user.route';
 import ProductRouter from './product.route';
+import OrderRouter from './order.route';
 
 import authGuard from './authGuard.route';
 
@@ -12,6 +13,7 @@ router.get('/', (req, res) => {
   res.send('hello from server');
 })
 
+router.use('/order', OrderRouter);
 router.use('/user', UserRouter);
 router.use('/product', ProductRouter);
 
