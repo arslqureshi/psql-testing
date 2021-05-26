@@ -75,3 +75,18 @@ CREATE TABLE order_items(
     	FOREIGN KEY(productId) 
 			REFERENCES product(id)
 )
+CREATE TABLE warehouses(
+    id serial NOT NULL,
+    city VARCHAR(225),
+    address VARCHAR(225),
+    details VARCHAR(225),
+    price VARCHAR(225),
+    lat VARCHAR(225),
+    lng VARCHAR(225),
+    ownerId integer,
+    PRIMARY KEY(id),
+    CONSTRAINT ownerId
+    	FOREIGN KEY(ownerId) 
+			REFERENCES person(id),
+   
+)

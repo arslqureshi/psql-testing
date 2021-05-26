@@ -53,7 +53,8 @@ const StripeController = {
                 },
                 transfers: {
                   requested: true,
-                }
+                },
+                
             }
         });
         return account;

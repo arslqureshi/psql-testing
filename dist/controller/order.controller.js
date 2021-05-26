@@ -13,16 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../src/db"));
+const stripe_controller_1 = __importDefault(require("../controller/stripe.controller"));
 const OrderController = {
     add(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = req.body;
-            const query = yield db_1.default.query('INSERT INTO orders (dataOfOrder, totalPrice, buyerId, driverId) VALUES($1, $2, $3, $4) RETURNING *', [new Date(), data.totalPrice, data.buyerId, data.driverId]);
+            const query = yield db_1.default.query('INSERT INTO orders (dateOfOrder, totalPrice, buyerId, driverId) VALUES($1, $2, $3, $4) RETURNING *', [new Date(), data.totalPrice, data.buyerId, data.driverId]);
             const order = query.rows[0];
-            this.data.items.forEach((element) => __awaiter(this, void 0, void 0, function* () {
-                const itemQuery = yield db_1.default.query('INSERT INTO order_items (count, subTotal, orderId, productId) VALUES($1, $2, $3, $4)', [element.count, element.subTota, order.id, element.productId]);
+            data.items.forEach((element) => __awaiter(this, void 0, void 0, function* () {
+                const itemQuery = yield db_1.default.query('INSERT INTO order_items (count, subTotal, orderId, productId) VALUES($1, $2, $3, $4)', [element.count, element.subTotal, order.id, element.productId]);
                 const seller = yield db_1.default.query('SELECT * FROM person where id=(SELECT sellerId FROM product WHERE id=$1)', [element.productId]);
-                console.log(seller);
+                const transfer = yield stripe_controller_1.default.transfer(element.subTotal, order.id, seller.rows[0].stripeconnectedaccountid);
+                console.log(transfer);
             }));
         });
     }

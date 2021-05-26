@@ -82,20 +82,21 @@ const StripeController = {
                     },
                     transfers: {
                         requested: true,
-                    }
+                    },
                 }
             });
             return account;
         });
     },
-    Transfer(orderId) {
+    transfer(amount, orderId, connectedAccountId) {
         return __awaiter(this, void 0, void 0, function* () {
             const transfer = yield stripe.transfers.create({
-                amount: 2000,
+                amount: amount,
                 currency: 'pkr',
-                destination: '{{OTHER_CONNECTED_STRIPE_ACCOUNT_ID}}',
-                transfer_group: '{ORDER10}',
+                destination: connectedAccountId,
+                transfer_group: orderId,
             });
+            return transfer;
         });
     }
 };
