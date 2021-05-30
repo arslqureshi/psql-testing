@@ -29,6 +29,42 @@ const WarehouseController = {
             console.log(e.message)
         }
     },
+    async edit(req,res) {
+        try {
+            const userData = req.body;
+            const data = await pool.query(
+                'SELECT * FROM warehouses where id=$1',
+                [userData.id]
+            );
+            if(data.rows[0]) {
+                const query = await pool.query(
+                    'UPDATE product SET city=$1, address=$2, details=$3, price=$4, ownerId=$5, lat=$6, lat=$7   WHERE id=$8',
+                    [userData.city, userData.address, userData.details, userData.price, userData.ownerId, userData.lat, userData.lat]
+                )
+                res.send(query);
+            } else {
+                res.status(404).send('Warehouse not found!');
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async deleteById(req, res) {
+        try {
+            const id = req.params.productId;
+            const data = await pool.query(
+                'SELECT stripeProductId FROM product WHERE id=$1',
+                [id]
+            );
+            const query = await pool.query(
+                'DELETE FROM product WHERE id=$1',
+                [id]
+            )
+            res.send(query);
+        } catch(e) {
+            console.log(e.message)
+        }
+    },
 }
 
 export default WarehouseController
