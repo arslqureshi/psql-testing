@@ -16,6 +16,6 @@ router.get('/', (req, res) => {
 router.use('/order', order_route_1.default);
 router.use('/user', user_route_1.default);
 router.use('/product', product_route_1.default);
-router.use('./warehouse', warehouse_route_1.default);
+router.use('/warehouse', warehouse_route_1.default);
 exports.default = router;
 //# sourceMappingURL=main.route.js.map
