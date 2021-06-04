@@ -6,6 +6,8 @@ export default function initSocket(io) {
 
     io.on("connection", (socket) => {
 
+      socket.emit('function Name')
+
       console.log('socket connected... id: ' + socket.id);
 
       io.to(socket.id).emit('sendSocketIdAndRequestUserId', socket.id);   //get user id and send socket.id to store on both ends
@@ -28,17 +30,14 @@ export default function initSocket(io) {
         }
       })
 
-      socket.on('test', (data) => {SocketController.test(socket, data);})
-
+      socket.on('newMessage', (data, to) => {
+        const index = sockets.findIndex(soc => soc.userId == to);
+        const toId = sockets[index].socketId;
+        SocketController.addMessage(io,data, toId)
+      })
 
       socket.on('disconnect', (socket) => {
         console.log(socket);
-        const check = sockets.findIndex(sock => sock.socketId === socket.id)
-        console.log(check);
-        if(check != -1) {
-          sockets.splice(check, 1);
-          console.log(sockets);
-        }
       })
     })
 

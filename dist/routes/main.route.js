@@ -8,6 +8,7 @@ const user_route_1 = __importDefault(require("./user.route"));
 const product_route_1 = __importDefault(require("./product.route"));
 const order_route_1 = __importDefault(require("./order.route"));
 const warehouse_route_1 = __importDefault(require("./warehouse.route"));
+const chat_route_1 = __importDefault(require("./chat.route"));
 const router = express_1.default.Router();
 router.get('/', (req, res) => {
     // emailController.sendmail("testing", "Testing email", "arslq7@gmail.com");
@@ -17,5 +18,6 @@ router.use('/order', order_route_1.default);
 router.use('/user', user_route_1.default);
 router.use('/product', product_route_1.default);
 router.use('/warehouse', warehouse_route_1.default);
+router.use('/chat', chat_route_1.default);
 exports.default = router;
 //# sourceMappingURL=main.route.js.map

@@ -8,6 +8,6 @@ const warehouse_controller_1 = __importDefault(require("../controller/warehouse.
 let WarehouseRouter = express_1.default.Router();
 WarehouseRouter.post('/', warehouse_controller_1.default.add);
 WarehouseRouter.get('/:ownerId', warehouse_controller_1.default.getByOwnerId);
-WarehouseRouter.get('/all', warehouse_controller_1.default.getAll);
+WarehouseRouter.get('/', warehouse_controller_1.default.getAll);
 exports.default = WarehouseRouter;
 //# sourceMappingURL=warehouse.route.js.map

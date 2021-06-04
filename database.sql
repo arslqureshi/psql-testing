@@ -120,7 +120,6 @@ CREATE TABLE messages (
     id serial NOT NULL,
     conversationId integer,
     messageFrom integer,
-    messageTo integer,
     message integer,
     PRIMARY KEY(id),
     CONSTRAINT message

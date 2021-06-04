@@ -16,8 +16,9 @@ const ChatController = {
     async getChat(req, res) {
         try {
             const conversationId = req.params.conversationId;
+            console.log(conversationId)
             const query = await pool.query(
-                'select * from messages where conversationId = $1',
+                'select messages.id as id, messagefrom, message.content,message.seen,message.delivered, message.date,message.filepath from messages join message on message.id=messages.message where conversationid = $1 ',
                 [conversationId]
             )
             res.send(query.rows);
