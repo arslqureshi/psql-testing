@@ -14,7 +14,6 @@ export default function initSocket(io) {
       
       socket.on('setUserId', (userId) => {
         const check = sockets.findIndex(sock => sock.userId === userId);
-        
         if(check === -1) {
           sockets.push({
             socketId: socket.id,
@@ -32,12 +31,19 @@ export default function initSocket(io) {
 
       socket.on('newMessage', (data, to) => {
         const index = sockets.findIndex(soc => soc.userId == to);
-        const toId = sockets[index].socketId;
-        SocketController.addMessage(io,data, toId)
+        if(index == -1) {
+          SocketController.addMessage(io,data, -1)
+        } else {
+          const toId = sockets[index].socketId;
+          SocketController.addMessage(io,data, toId)
+        }
       })
 
-      socket.on('disconnect', (socket) => {
-        console.log(socket);
+      socket.on('disconnect', () => {
+        console.log(socket.id);
+        const index = sockets.findIndex(soc => soc.socketId == socket.id);
+        sockets.splice(index, 1);
+        console.log(sockets);
       })
     })
 
