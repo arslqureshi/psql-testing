@@ -30,7 +30,8 @@ const ChatController = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conversationId = req.params.conversationId;
-                const query = yield db_1.default.query('select * from messages where conversationId = $1', [conversationId]);
+                console.log(conversationId);
+                const query = yield db_1.default.query('select messages.id as id, messagefrom, message.content,message.seen,message.delivered, message.date,message.filepath from messages join message on message.id=messages.message where conversationid = $1 ', [conversationId]);
                 res.send(query.rows);
             }
             catch (e) {

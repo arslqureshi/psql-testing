@@ -27,8 +27,10 @@ function initSocket(io) {
                 console.log(sockets);
             }
         });
-        socket.on('newMessage', (data) => {
-            socket_controller_1.default.addMessage(socket, data);
+        socket.on('newMessage', (data, to) => {
+            const index = sockets.findIndex(soc => soc.userId == to);
+            const toId = sockets[index].socketId;
+            socket_controller_1.default.addMessage(io, data, toId);
         });
         socket.on('disconnect', (socket) => {
             console.log(socket);
