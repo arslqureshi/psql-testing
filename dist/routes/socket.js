@@ -29,11 +29,19 @@ function initSocket(io) {
         });
         socket.on('newMessage', (data, to) => {
             const index = sockets.findIndex(soc => soc.userId == to);
-            const toId = sockets[index].socketId;
-            socket_controller_1.default.addMessage(io, data, toId);
+            if (index == -1) {
+                socket_controller_1.default.addMessage(io, data, -1);
+            }
+            else {
+                const toId = sockets[index].socketId;
+                socket_controller_1.default.addMessage(io, data, toId);
+            }
         });
-        socket.on('disconnect', (socket) => {
-            console.log(socket);
+        socket.on('disconnect', () => {
+            console.log(socket.id);
+            const index = sockets.findIndex(soc => soc.socketId == socket.id);
+            sockets.splice(index, 1);
+            console.log(sockets);
         });
     });
 }
