@@ -83,6 +83,7 @@ CREATE TABLE warehouses(
     price VARCHAR(225),
     lat VARCHAR(225),
     lng VARCHAR(225),
+    isRented BOOLEAN,
     ownerId integer,
     PRIMARY KEY(id),
     CONSTRAINT ownerId

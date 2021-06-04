@@ -38,7 +38,7 @@ const WarehouseController = {
             );
             if(data.rows[0]) {
                 const query = await pool.query(
-                    'UPDATE product SET city=$1, address=$2, details=$3, price=$4, ownerId=$5, lat=$6, lat=$7   WHERE id=$8',
+                    'UPDATE warehouses SET city=$1, address=$2, details=$3, price=$4, ownerId=$5, lat=$6, lat=$7   WHERE id=$8',
                     [userData.city, userData.address, userData.details, userData.price, userData.ownerId, userData.lat, userData.lat]
                 )
                 res.send(query);
@@ -51,13 +51,9 @@ const WarehouseController = {
     },
     async deleteById(req, res) {
         try {
-            const id = req.params.productId;
-            const data = await pool.query(
-                'SELECT stripeProductId FROM product WHERE id=$1',
-                [id]
-            );
+            const id = req.params.warehouseId;
             const query = await pool.query(
-                'DELETE FROM product WHERE id=$1',
+                'DELETE FROM warehouses WHERE id=$1',
                 [id]
             )
             res.send(query);
@@ -65,6 +61,16 @@ const WarehouseController = {
             console.log(e.message)
         }
     },
+    async getAll(req, res) {
+        try {
+            const query = await pool.query(
+                `SELECT * FROM warehouses`
+            )
+            res.send(query.rows);
+        } catch (e) {
+            console.log(e.message);
+        }
+    } 
 }
 
 export default WarehouseController
