@@ -88,6 +88,51 @@ CREATE TABLE warehouses(
     PRIMARY KEY(id),
     CONSTRAINT ownerId
     	FOREIGN KEY(ownerId) 
-			REFERENCES person(id),
-   
+			REFERENCES person(id),  
+)
+
+CREATE TABLE conversations(
+    id serial NOT NULL,
+    user1 integer,
+    user2 integer,
+    username1 varchar(225),
+    username2 varchar(225),
+    PRIMARY KEY(id),
+    CONSTRAINT user1
+        FOREIGN KEY(user1)
+            REFERENCES person(id),
+    CONSTRAINT user2
+        FOREIGN KEY(user2)
+            REFERENCES person(id)
+)
+
+CREATE TABLE message(
+    id serial NOT NULL,
+    content text,
+    seen BOOLEAN,
+    delivered BOOLEAN,
+    date DATE,
+    filePath VARCHAR(225),
+    PRIMARY KEY(id)
+)
+
+CREATE TABLE messages (
+    id serial NOT NULL,
+    conversationId integer,
+    messageFrom integer,
+    messageTo integer,
+    message integer,
+    PRIMARY KEY(id),
+    CONSTRAINT message
+        FOREIGN KEY(message)
+            REFERENCES message(id),
+    CONSTRAINT messageFrom
+        FOREIGN KEY(messageFrom)
+            REFERENCES person(id),
+    CONSTRAINT messageTo
+        FOREIGN KEY(messageTo)
+            REFERENCES message(id),
+    CONSTRAINT conversationId
+        FOREIGN KEY(conversationId)
+            REFERENCES conversations(id)
 )

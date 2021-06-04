@@ -2,7 +2,8 @@ import express from 'express'
 import UserRouter from './user.route';
 import ProductRouter from './product.route';
 import OrderRouter from './order.route';
-import WarehouseRouter from './warehouse.route'
+import WarehouseRouter from './warehouse.route';
+import ChatRouter from './chat.route';
 
 import authGuard from './authGuard.route';
 
@@ -18,5 +19,6 @@ router.use('/order', OrderRouter);
 router.use('/user', UserRouter);
 router.use('/product', ProductRouter);
 router.use('/warehouse', WarehouseRouter);
+router.use('/chat', ChatRouter);
 
 export default router;
