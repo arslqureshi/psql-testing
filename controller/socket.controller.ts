@@ -1,5 +1,6 @@
+import pool from '../src/db';
 const SocketController = {
-    test(socket, data) {
+    addMessage(socket, data) {
         socket.emit('hello', data);
     }
 }
