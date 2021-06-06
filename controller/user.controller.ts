@@ -25,7 +25,7 @@ const UserController = {
             }
             const result = await pool.query(
                 'INSERT INTO person (email, password, role, date, active, userName, phoneNumber, stripeCustomerId, stripeConnectedAccountId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-                [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id, account.id]
+                [userData.email, userData.password, userData.role, new Date(), true, userData.userName, userData.phoneNumber, customer.id, account?.id]
             )
             const token = jwt.sign({_id: result.rows[0].id}, process.env.TOKEN_SECRET);
             let data = result.rows[0];

@@ -14,6 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../src/db"));
 const ChatController = {
+    createChatRoom(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    },
     getConversations(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -39,10 +43,6 @@ const ChatController = {
             }
         });
     },
-    addMessage(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-        });
-    }
 };
 exports.default = ChatController;
 //# sourceMappingURL=chat.controller.js.map

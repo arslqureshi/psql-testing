@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const chat_controller_1 = __importDefault(require("../controller/chat.controller"));
 let chatRouter = express_1.default.Router();
+chatRouter.post('/createChatRoom', chat_controller_1.default.createChatRoom);
 chatRouter.get('/conversations/:userId', chat_controller_1.default.getConversations);
 chatRouter.get('/getChat/:conversationId', chat_controller_1.default.getChat);
 exports.default = chatRouter;

@@ -17,14 +17,12 @@ function initSocket(io) {
                     socketId: socket.id,
                     userId: userId
                 });
-                console.log(sockets);
             }
             else {
                 sockets[check] = {
                     socketId: socket.id,
                     userId: userId
                 };
-                console.log(sockets);
             }
         });
         socket.on('newMessage', (data, to) => {
@@ -41,7 +39,6 @@ function initSocket(io) {
             console.log(socket.id);
             const index = sockets.findIndex(soc => soc.socketId == socket.id);
             sockets.splice(index, 1);
-            console.log(sockets);
         });
     });
 }
