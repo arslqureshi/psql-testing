@@ -41,7 +41,7 @@ const ChatController = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userId = req.params.userId;
-                const query = yield db_1.default.query('select * from conversations where user1 = $1 OR user2 = $2', [userId, userId]);
+                const query = yield db_1.default.query('select * from conversations where user1 = $1 OR user2 = $2 ORDER BY lastMessageDate ASC', [userId, userId]);
                 res.send(query.rows);
             }
             catch (e) {
