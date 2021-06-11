@@ -16,6 +16,25 @@ const db_1 = __importDefault(require("../src/db"));
 const ChatController = {
     createChatRoom(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const data = req.body;
+            const query = yield db_1.default.query(`select * from warehouses join person on person.id=warehouses.ownerid where warehouses.id=$1`, [data.warehouseId]);
+            const ownerData = query.rows[0];
+            console.log(ownerData);
+            if (ownerData.ownerid !== data.user1) {
+                const query1 = yield db_1.default.query(`select * from conversations where (user1=$1 and user2=$2) or (user1=$3 and user2=$4)`, [data.user1, ownerData.ownerid, ownerData.ownerid, data.user1]);
+                if (query1.rows.length === 0) {
+                    const query2 = yield db_1.default.query(`insert into conversations(user1,user2,username1,username2) values($1,$2,$3,$4) returning *`, [data.user1, ownerData.ownerid, data.username1, ownerData.username]);
+                    console.log(query2.rows, '2');
+                    res.send(query2.rows[0]);
+                }
+                else {
+                    console.log(query1.rows, '1');
+                    res.send(query1.rows[0]);
+                }
+            }
+            else {
+                res.status(400).send('cannot chat with yourself');
+            }
         });
     },
     getConversations(req, res) {

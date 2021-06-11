@@ -135,3 +135,35 @@ CREATE TABLE messages (
         FOREIGN KEY(conversationId)
             REFERENCES conversations(id)
 )
+
+CREATE TABLE contract_request(
+    id serial NOT NULL,
+    requestFrom integer,
+    requestTo integer,
+    date DATE,
+    PRIMARY KEY(id),
+    CONSTRAINT requestFrom
+        FOREIGN KEY(requestFrom)
+            REFERENCES person(id),
+    CONSTRAINT requestTo
+        FOREIGN KEY(requestTo)
+            REFERENCES person(id),        
+);
+
+CREATE TABLE warehouse_contract(
+    id serial NOT NULL,
+    warehouseId integer,
+    sellerId integer,
+    penaltyAmount VARCHAR(225),
+    expirayDate DATE,
+    activeDate DATE,
+    status VARCHAR(225),
+    description text,
+    PRIMARY KEY(id),
+    CONSTRAINT warehouseId
+        FOREIGN KEY(warehouseId)
+            REFERENCES person(id),
+    CONSTRAINT sellerId
+        FOREIGN KEY(sellerId)
+            REFERENCES person(id)
+)
