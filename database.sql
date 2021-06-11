@@ -97,6 +97,7 @@ CREATE TABLE conversations(
     user2 integer,
     username1 varchar(225),
     username2 varchar(225),
+    lastMessageDate Date,
     PRIMARY KEY(id),
     CONSTRAINT user1
         FOREIGN KEY(user1)

@@ -34,7 +34,7 @@ const ChatController = {
         try {
             const userId = req.params.userId;
             const query = await pool.query(
-                'select * from conversations where user1 = $1 OR user2 = $2',
+                'select * from conversations where user1 = $1 OR user2 = $2 ORDER BY lastMessageDate ASC',
                 [userId, userId]
             )
             res.send(query.rows);
