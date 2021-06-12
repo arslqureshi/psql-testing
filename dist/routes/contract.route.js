@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const contract_controller_1 = __importDefault(require("../controller/contract.controller"));
 let ContractRouter = express_1.default.Router();
-ContractRouter.post('/addRequest', contract_controller_1.default.addRequest);
+ContractRouter.post('/addWarehouseRequest', contract_controller_1.default.addWarehouseRequest);
+ContractRouter.get('/getWarehouseRequestsAndContracts/:ownerId', contract_controller_1.default.getWarehouseRequestsAndContracts);
 exports.default = ContractRouter;
 //# sourceMappingURL=contract.route.js.map
