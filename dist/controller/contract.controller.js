@@ -20,8 +20,15 @@ const ContractController = {
                 const data = req.body;
                 const query1 = yield db_1.default.query(`select * from warehouses join person on person.id=warehouses.ownerid where warehouses.id=$1`, [data.warehouseId]);
                 console.log(query1.rows[0]);
-                const query2 = yield db_1.default.query(`insert into contract_request(requestFrom, requestTo, date) values($1, $2, $3) returning *`, [data.requestFrom, query1.rows[0].ownerid, new Date()]);
-                console.log(query2.rows[0]);
+                const query2 = yield db_1.default.query(`select * from contract_request where requestFrom = $1 AND requestTo = $2`, [data.requestFrom, query1.rows[0].ownerid]);
+                let finalQuery;
+                if (query2.rows.length > 1) {
+                    finalQuery = yield db_1.default.query(`update contract_request set data = $1 where id = $2`, [new Date(), query2.rows[0].id]);
+                }
+                else {
+                    finalQuery = yield db_1.default.query(`insert into contract_request(requestFrom, requestTo, date) values($1, $2, $3) returning *`, [data.requestFrom, query1.rows[0].ownerid, new Date()]);
+                }
+                console.log(finalQuery);
                 res.send({
                     data: 'request sent'
                 });
@@ -36,11 +43,7 @@ const ContractController = {
             try {
                 const ownerId = req.params.ownerId;
                 console.log(ownerId);
-                const query = yield db_1.default.query(`select contract_request.id as id, person.username, person.phoneNumber, person.email from contract_request join person on person.id = contract_request.requestFrom where requestTo = $1`, [ownerId]);
-                // const query1 = await pool.query(
-                //     'SELECT id FROM warehouses WHERE ownerid = $1',
-                //     [ownerId]
-                // )
+                const query = yield db_1.default.query(`select contract_request.id as id, person.username, person.phoneNumber, person.email, person.id as sellerId from contract_request join person on person.id = contract_request.requestFrom where requestTo = $1`, [ownerId]);
                 const query1 = yield db_1.default.query(`select * from warehouse_contract where warehouseId IN(SELECT id FROM warehouses WHERE ownerid = $1)`, [ownerId]);
                 let data = {
                     requests: query.rows,

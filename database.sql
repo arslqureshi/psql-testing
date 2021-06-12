@@ -156,14 +156,14 @@ CREATE TABLE warehouse_contract(
     warehouseId integer,
     sellerId integer,
     penaltyAmount VARCHAR(225),
-    expirayDate DATE,
+    expiryDate DATE,
     activeDate DATE,
     status VARCHAR(225),
     description text,
     PRIMARY KEY(id),
     CONSTRAINT warehouseId
         FOREIGN KEY(warehouseId)
-            REFERENCES person(id),
+            REFERENCES warehouses(id),
     CONSTRAINT sellerId
         FOREIGN KEY(sellerId)
             REFERENCES person(id)
