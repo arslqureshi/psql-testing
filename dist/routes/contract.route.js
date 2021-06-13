@@ -8,5 +8,6 @@ const contract_controller_1 = __importDefault(require("../controller/contract.co
 let ContractRouter = express_1.default.Router();
 ContractRouter.post('/addWarehouseRequest', contract_controller_1.default.addWarehouseRequest);
 ContractRouter.get('/getWarehouseRequestsAndContracts/:ownerId', contract_controller_1.default.getWarehouseRequestsAndContracts);
+ContractRouter.post('/createContract', contract_controller_1.default.createContract);
 exports.default = ContractRouter;
 //# sourceMappingURL=contract.route.js.map

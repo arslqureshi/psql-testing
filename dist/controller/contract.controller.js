@@ -19,16 +19,14 @@ const ContractController = {
             try {
                 const data = req.body;
                 const query1 = yield db_1.default.query(`select * from warehouses join person on person.id=warehouses.ownerid where warehouses.id=$1`, [data.warehouseId]);
-                console.log(query1.rows[0]);
                 const query2 = yield db_1.default.query(`select * from contract_request where requestFrom = $1 AND requestTo = $2`, [data.requestFrom, query1.rows[0].ownerid]);
                 let finalQuery;
-                if (query2.rows.length > 1) {
-                    finalQuery = yield db_1.default.query(`update contract_request set data = $1 where id = $2`, [new Date(), query2.rows[0].id]);
+                if (query2.rows.length > 0) {
+                    finalQuery = yield db_1.default.query(`update contract_request set date = $1 where id = $2`, [new Date(), query2.rows[0].id]);
                 }
                 else {
                     finalQuery = yield db_1.default.query(`insert into contract_request(requestFrom, requestTo, date) values($1, $2, $3) returning *`, [data.requestFrom, query1.rows[0].ownerid, new Date()]);
                 }
-                console.log(finalQuery);
                 res.send({
                     data: 'request sent'
                 });
@@ -49,8 +47,26 @@ const ContractController = {
                     requests: query.rows,
                     contracts: query1.rows
                 };
-                console.log(data);
+                // console.log(data);
                 res.send(data);
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
+    },
+    createContract(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = req.body;
+                const query = yield db_1.default.query('insert into warehouse_contract(warehouseId, sellerId, penaltyAmount, expiryDate, status, description) values($1,$2,$3,$4,$5,$6)', [data.warehouseId, data.sellerId, data.penaltyAmount, new Date(data.expiryDate), data.status, data.description]);
+                const query1 = yield db_1.default.query('select ownerId from warehouses where id = $1', [data.warehouseId]);
+                console.log(query1.rows[0].ownerid, data.sellerId);
+                const query2 = yield db_1.default.query('delete from contract_request where requestTo = $1 and requestFrom = $2', [query1.rows[0].ownerId, data.sellerId]);
+                console.log(query2);
+                res.send({
+                    data: 'contract sent'
+                });
             }
             catch (e) {
                 console.log(e.message);

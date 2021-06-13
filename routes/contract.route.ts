@@ -7,5 +7,6 @@ let ContractRouter = Express.Router();
 ContractRouter.post('/addWarehouseRequest', ContractController.addWarehouseRequest);
 ContractRouter.get('/getWarehouseRequestsAndContracts/:ownerId', ContractController.getWarehouseRequestsAndContracts);
 ContractRouter.post('/createContract', ContractController.createContract);
+ContractRouter.delete('/deleteRequest/:requestId', ContractController.deleteContract);
 
 export default ContractRouter;

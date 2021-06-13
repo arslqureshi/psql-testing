@@ -40,14 +40,16 @@ const ContractController = {
                 [ownerId]
             );
             const query1 = await pool.query(
-                `select * from warehouse_contract where warehouseId IN(SELECT id FROM warehouses WHERE ownerid = $1)`,
+                `select warehouse_contract.id as id, warehouse_contract.status, warehouses.city, warehouses.address, person.username, warehouse_contract.expiryDate from warehouse_contract 
+                join person on warehouse_contract.sellerId = person.id 
+                join warehouses on warehouse_contract.warehouseId = warehouses.id
+                where warehouseId IN(SELECT id FROM warehouses WHERE ownerid = $1)`,
                 [ownerId]
             )
             let data = {
                 requests: query.rows,
                 contracts: query1.rows
             }
-            // console.log(data);
             res.send(data)
         } catch (e) {
             console.log(e.message)
@@ -60,16 +62,6 @@ const ContractController = {
                 'insert into warehouse_contract(warehouseId, sellerId, penaltyAmount, expiryDate, status, description) values($1,$2,$3,$4,$5,$6)',
                 [data.warehouseId, data.sellerId, data.penaltyAmount, new Date(data.expiryDate), data.status, data.description]
             );
-            const query1 = await pool.query(
-                'select ownerId from warehouses where id = $1',
-                [data.warehouseId]
-            )
-            console.log(query1.rows[0].ownerid, data.sellerId)
-            const query2 = await pool.query(
-                'delete from contract_request where requestTo = $1 and requestFrom = $2',
-                [query1.rows[0].ownerId, data.sellerId]
-            )
-            console.log(query2);
             res.send({
                 data: 'contract sent'
             });
@@ -77,6 +69,21 @@ const ContractController = {
             console.log(e.message);
         }
 
+    },
+    async deleteContract(req, res) {
+        try{
+            const requestId = req.params.requestId;
+            const query1 = await pool.query(
+                'delete from contract_request where id = $1',
+                [requestId]
+            )
+            console.log(query1);
+            res.send({
+                data: 'request Deleted'
+            })
+        } catch(e) {
+            console.log(e.message)
+        }
     }
 }
 
