@@ -70,7 +70,7 @@ const ContractController = {
         }
 
     },
-    async deleteContract(req, res) {
+    async deleteContractRequest(req, res) {
         try{
             const requestId = req.params.requestId;
             const query1 = await pool.query(
@@ -83,6 +83,52 @@ const ContractController = {
             })
         } catch(e) {
             console.log(e.message)
+        }
+    },
+    async getSellerContracts(req, res) {
+        try{
+            const sellerId = req.params.sellerId;
+            const query = await pool.query(
+                `select warehouse_contract.id as id, warehouse_contract.expiryDate, warehouse_contract.penaltyAmount, warehouse_contract.status, warehouses.city, warehouses.address, warehouses.price, warehouse_contract.description
+                 from warehouse_contract
+                 join warehouses on warehouses.id = warehouse_contract.warehouseId
+                 where sellerId = $1`,
+                [sellerId]
+            )
+            res.send(query.rows);
+        } catch(e) {
+            console.log(e.message);
+        }
+    },
+    async deleteContract(req, res) {
+        try {
+            const contractId = req.params.contractId;
+            const query1 = await pool.query(
+                'delete from warehouse_contract where id = $1',
+                [contractId]
+            )
+            console.log(query1);
+            res.send({
+                data: 'Contract Deleted'
+            })
+        } catch(e) {
+            console.log(e.message);
+        }
+    },
+    async contractStarted(req, res) {
+        try{
+            const data = req.body;
+            console.log(data);
+            const query = await pool.query(
+                'update warehouse_contract set activeDate = $1, status = $2 where id = $3',
+                [new Date(), 'active', data.warehouse_contractId]
+            )
+            console.log(query);
+            res.status(200).send({
+                data: "Warehouse Active"
+            })
+        } catch(e) {
+            console.log(e.message);
         }
     }
 }

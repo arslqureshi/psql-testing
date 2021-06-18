@@ -42,12 +42,14 @@ const ContractController = {
                 const ownerId = req.params.ownerId;
                 console.log(ownerId);
                 const query = yield db_1.default.query(`select contract_request.id as id, person.username, person.phoneNumber, person.email, person.id as sellerId from contract_request join person on person.id = contract_request.requestFrom where requestTo = $1`, [ownerId]);
-                const query1 = yield db_1.default.query(`select * from warehouse_contract where warehouseId IN(SELECT id FROM warehouses WHERE ownerid = $1)`, [ownerId]);
+                const query1 = yield db_1.default.query(`select warehouse_contract.id as id, warehouse_contract.status, warehouses.city, warehouses.address, person.username, warehouse_contract.expiryDate from warehouse_contract 
+                join person on warehouse_contract.sellerId = person.id 
+                join warehouses on warehouse_contract.warehouseId = warehouses.id
+                where warehouseId IN(SELECT id FROM warehouses WHERE ownerid = $1)`, [ownerId]);
                 let data = {
                     requests: query.rows,
                     contracts: query1.rows
                 };
-                // console.log(data);
                 res.send(data);
             }
             catch (e) {
@@ -60,12 +62,53 @@ const ContractController = {
             try {
                 const data = req.body;
                 const query = yield db_1.default.query('insert into warehouse_contract(warehouseId, sellerId, penaltyAmount, expiryDate, status, description) values($1,$2,$3,$4,$5,$6)', [data.warehouseId, data.sellerId, data.penaltyAmount, new Date(data.expiryDate), data.status, data.description]);
-                const query1 = yield db_1.default.query('select ownerId from warehouses where id = $1', [data.warehouseId]);
-                console.log(query1.rows[0].ownerid, data.sellerId);
-                const query2 = yield db_1.default.query('delete from contract_request where requestTo = $1 and requestFrom = $2', [query1.rows[0].ownerId, data.sellerId]);
-                console.log(query2);
                 res.send({
                     data: 'contract sent'
+                });
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
+    },
+    deleteContractRequest(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const requestId = req.params.requestId;
+                const query1 = yield db_1.default.query('delete from contract_request where id = $1', [requestId]);
+                console.log(query1);
+                res.send({
+                    data: 'request Deleted'
+                });
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
+    },
+    getSellerContracts(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sellerId = req.params.sellerId;
+                const query = yield db_1.default.query(`select warehouse_contract.id as id, warehouse_contract.expiryDate, warehouse_contract.penaltyAmount, warehouse_contract.status, warehouses.city, warehouses.address, warehouses.price
+                 from warehouse_contract
+                 join warehouses on warehouses.id = warehouse_contract.warehouseId
+                 where sellerId = $1`, [sellerId]);
+                res.send(query.rows);
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
+    },
+    deleteContract(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const contractId = req.params.contractId;
+                const query1 = yield db_1.default.query('delete from warehouse_contract where id = $1', [contractId]);
+                console.log(query1);
+                res.send({
+                    data: 'Contract Deleted'
                 });
             }
             catch (e) {

@@ -9,5 +9,8 @@ let ContractRouter = express_1.default.Router();
 ContractRouter.post('/addWarehouseRequest', contract_controller_1.default.addWarehouseRequest);
 ContractRouter.get('/getWarehouseRequestsAndContracts/:ownerId', contract_controller_1.default.getWarehouseRequestsAndContracts);
 ContractRouter.post('/createContract', contract_controller_1.default.createContract);
+ContractRouter.delete('/deleteRequest/:requestId', contract_controller_1.default.deleteContractRequest);
+ContractRouter.get('/sellerContracts/:sellerId', contract_controller_1.default.getSellerContracts);
+ContractRouter.delete('/deleteContract/:contractId', contract_controller_1.default.deleteContract);
 exports.default = ContractRouter;
 //# sourceMappingURL=contract.route.js.map
