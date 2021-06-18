@@ -12,5 +12,6 @@ ContractRouter.post('/createContract', contract_controller_1.default.createContr
 ContractRouter.delete('/deleteRequest/:requestId', contract_controller_1.default.deleteContractRequest);
 ContractRouter.get('/sellerContracts/:sellerId', contract_controller_1.default.getSellerContracts);
 ContractRouter.delete('/deleteContract/:contractId', contract_controller_1.default.deleteContract);
+ContractRouter.put('/contractStarted', contract_controller_1.default.contractStarted);
 exports.default = ContractRouter;
 //# sourceMappingURL=contract.route.js.map

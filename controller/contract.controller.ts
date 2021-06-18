@@ -120,10 +120,13 @@ const ContractController = {
             const data = req.body;
             console.log(data);
             const query = await pool.query(
-                'update warehouse_contract set activeDate = $1, status = $2 where id = $3',
+                'update warehouse_contract set activeDate = $1, status = $2 where id = $3 returning *',
                 [new Date(), 'active', data.warehouse_contractId]
             )
-            console.log(query);
+            const query1 = await pool.query(
+                'update warehouses set isRented = $1 where id = $2 returning *',
+                [true, query.rows[0].warehouseid]
+            )
             res.status(200).send({
                 data: "Warehouse Active"
             })

@@ -90,7 +90,7 @@ const ContractController = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sellerId = req.params.sellerId;
-                const query = yield db_1.default.query(`select warehouse_contract.id as id, warehouse_contract.expiryDate, warehouse_contract.penaltyAmount, warehouse_contract.status, warehouses.city, warehouses.address, warehouses.price
+                const query = yield db_1.default.query(`select warehouse_contract.id as id, warehouse_contract.expiryDate, warehouse_contract.penaltyAmount, warehouse_contract.status, warehouses.city, warehouses.address, warehouses.price, warehouse_contract.description
                  from warehouse_contract
                  join warehouses on warehouses.id = warehouse_contract.warehouseId
                  where sellerId = $1`, [sellerId]);
@@ -109,6 +109,22 @@ const ContractController = {
                 console.log(query1);
                 res.send({
                     data: 'Contract Deleted'
+                });
+            }
+            catch (e) {
+                console.log(e.message);
+            }
+        });
+    },
+    contractStarted(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = req.body;
+                console.log(data);
+                const query = yield db_1.default.query('update warehouse_contract set activeDate = $1, status = $2 where id = $3 returning *', [new Date(), 'active', data.warehouse_contractId]);
+                console.log(query);
+                res.status(200).send({
+                    data: "Warehouse Active"
                 });
             }
             catch (e) {
