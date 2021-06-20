@@ -20,8 +20,8 @@ const ProductController =  {
             console.log(product.id, price.id);
 
             const result = await pool.query(
-                'INSERT INTO product (name, description, category, price, likes, sellerId, image, stripeProductId, stripePriceId, warehouseId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-                [userData.name, userData.description, userData.category, userData.price, userData.like, userData.sellerId, userData.image, product.id, price.id, product.warehouseId]
+                'INSERT INTO product (name, description, category, price, likes, sellerId, image, stripeProductId, stripePriceId, warehouseId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+                [userData.name, userData.description, userData.category, userData.price, userData.like, userData.sellerId, userData.image, product.id, price.id, userData.warehouseId]
             )
            
             res.send(result.rows[0]);
@@ -49,8 +49,9 @@ const ProductController =  {
                 'SELECT stripeProductId FROM product WHERE id=$1',
                 [id]
             );
+            console.log(data.rows[0].stripeproductid);
             const deleted = await StripeController.deleteProduct(
-                data.rows[0].stripeProductId
+                data.rows[0].stripeproductid
             );
             const query = await pool.query(
                 'DELETE FROM product WHERE id=$1',
@@ -73,7 +74,6 @@ const ProductController =  {
     },
     async getProductById(req, res) {
         try {
-        
             const id = req.params.productId;
             console.log(id);
             const query = await pool.query(
