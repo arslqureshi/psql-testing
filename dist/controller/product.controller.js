@@ -30,7 +30,7 @@ const ProductController = {
                     product: product.id,
                 });
                 console.log(product.id, price.id);
-                const result = yield db_1.default.query('INSERT INTO product (name, description, category, price, likes, sellerId, image, stripeProductId, stripePriceId, warehouseId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *', [userData.name, userData.description, userData.category, userData.price, userData.like, userData.sellerId, userData.image, product.id, price.id, product.warehouseId]);
+                const result = yield db_1.default.query('INSERT INTO product (name, description, category, price, likes, sellerId, image, stripeProductId, stripePriceId, warehouseId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *', [userData.name, userData.description, userData.category, userData.price, userData.like, userData.sellerId, userData.image, product.id, price.id, userData.warehouseId]);
                 res.send(result.rows[0]);
             }
             catch (e) {
@@ -56,7 +56,8 @@ const ProductController = {
             try {
                 const id = req.params.productId;
                 const data = yield db_1.default.query('SELECT stripeProductId FROM product WHERE id=$1', [id]);
-                const deleted = yield stripe_controller_1.default.deleteProduct(data.rows[0].stripeProductId);
+                console.log(data.rows[0].stripeproductid);
+                const deleted = yield stripe_controller_1.default.deleteProduct(data.rows[0].stripeproductid);
                 const query = yield db_1.default.query('DELETE FROM product WHERE id=$1', [id]);
                 res.send(query);
             }
