@@ -24,10 +24,14 @@ CREATE TABLE product (
     stripeProductId VARCHAR(225),
     stripePriceId VARCHAR(225),
 	sellerId integer,
+    warehouseId integer,
     PRIMARY KEY (id),
 	CONSTRAINT sellerId
     	FOREIGN KEY(sellerId) 
-			REFERENCES person(id)
+			REFERENCES person(id),
+    CONSTRAINT warehouseId
+        FOREIGN KEY(warehouseId)
+            REFERENCES warehouses(id)
 );
 
 CREATE TABLE credit_card(

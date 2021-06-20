@@ -20,8 +20,8 @@ const ProductController =  {
             console.log(product.id, price.id);
 
             const result = await pool.query(
-                'INSERT INTO product (name, description, category, price, likes, sellerId, image, stripeProductId, stripePriceId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-                [userData.name, userData.description, userData.category, userData.price, userData.like, userData.sellerId, userData.image, product.id, price.id]
+                'INSERT INTO product (name, description, category, price, likes, sellerId, image, stripeProductId, stripePriceId, warehouseId) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+                [userData.name, userData.description, userData.category, userData.price, userData.like, userData.sellerId, userData.image, product.id, price.id, product.warehouseId]
             )
            
             res.send(result.rows[0]);
