@@ -69,7 +69,9 @@ const ProductController = {
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = yield db_1.default.query('SELECT price, name, product.id, description, category, likes, sellerId, image, username FROM product INNER JOIN person ON person.id = product.sellerId ORDER BY product.id DESC');
+                const query = yield db_1.default.query(`SELECT price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
+                JOIN warehouses on warehouses.id = product.warehouseId
+                JOIN person ON person.id = product.sellerId ORDER BY product.id DESC`);
                 res.send(query.rows);
             }
             catch (error) {

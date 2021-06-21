@@ -62,7 +62,7 @@ const StripeController = {
     createPaymentIntent(sourceId, amount, customerId) {
         return __awaiter(this, void 0, void 0, function* () {
             const paymentIntent = yield stripe.paymentIntents.create({
-                amount: amount,
+                amount: amount * 100,
                 currency: 'pkr',
                 payment_method: sourceId,
                 customer: customerId

@@ -65,7 +65,9 @@ const ProductController =  {
     async get(req,res) {
         try {
             const query = await pool.query(
-                'SELECT price, name, product.id, description, category, likes, sellerId, image, username FROM product INNER JOIN person ON person.id = product.sellerId ORDER BY product.id DESC'
+                `SELECT product.price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
+                JOIN warehouses on warehouses.id = product.warehouseId
+                JOIN person ON person.id = product.sellerId ORDER BY product.id DESC`
             );
             res.send(query.rows)
         } catch(error) {
