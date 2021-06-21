@@ -35,7 +35,7 @@ const StripeController = {
     },
     async createPaymentIntent(sourceId, amount, customerId) {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount,
+            amount: amount * 100,
             currency: 'pkr',
             payment_method: sourceId,
             customer: customerId
