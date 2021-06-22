@@ -11,5 +11,6 @@ ProductRouter.get('/:sellerId', ProductController.getBySellerId);
 ProductRouter.get('/singleProduct/:productId', ProductController.getProductById);
 ProductRouter.put('/', ProductController.edit)
 ProductRouter.delete('/:productId', ProductController.deleteById);
+ProductRouter.get('/getFeedFromLocation/:lat/:lng', ProductController.getFeedFromLocation);
 
 export default ProductRouter;

@@ -112,6 +112,33 @@ const ProductController =  {
         } catch (error) {
             console.log(error)
         }
+    },
+    async getFeedFromLocation(req,res) {
+        try {
+            let products = [];
+            const userLocation = {
+                lat: parseFloat(req.params.lat),
+                lng: parseFloat(req.params.lng)
+            };
+            console.log(userLocation);
+            const query = await pool.query(
+                `SELECT product.price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
+                JOIN warehouses on warehouses.id = product.warehouseId
+                JOIN person ON person.id = product.sellerId ORDER BY product.id DESC`
+            );
+            await query.rows.forEach(element => {
+                var ky = 40000 / 360;
+                var kx = Math.cos(Math.PI * userLocation.lat / 180.0) * ky;
+                var dx = Math.abs(userLocation.lng - parseFloat(element.lng)) * kx;
+                var dy = Math.abs(userLocation.lat - parseFloat(element.lat)) * ky;
+                if(Math.sqrt(dx * dx + dy * dy) <= 5) {
+                    products.push(element);
+                }
+            });
+            res.status(200).send(products);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 export default ProductController;

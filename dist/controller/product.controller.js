@@ -69,7 +69,7 @@ const ProductController = {
     get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const query = yield db_1.default.query(`SELECT price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
+                const query = yield db_1.default.query(`SELECT product.price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
                 JOIN warehouses on warehouses.id = product.warehouseId
                 JOIN person ON person.id = product.sellerId ORDER BY product.id DESC`);
                 res.send(query.rows);
@@ -104,6 +104,23 @@ const ProductController = {
                 const price = yield stripe_controller_1.default.updatePrice(data.rows[0].stripePriceId, { unit_amount: data.rows[0].price * 100 });
                 const query = yield db_1.default.query('UPDATE product SET name=$1, category=$2, description=$3, price=$4, stripeProductId=$5, stripePriceId=$6   WHERE id=$7', [userData.name, userData.category, userData.description, userData.price, product.id, price.id, userData.id]);
                 res.send(query);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    },
+    getFeedFromLocation(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userLocation = {
+                    lat: req.params.lat,
+                    lng: req.params.lng
+                };
+                const query = yield db_1.default.query(`SELECT product.price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
+                JOIN warehouses on warehouses.id = product.warehouseId
+                JOIN person ON person.id = product.sellerId ORDER BY product.id DESC`);
+                console.log(query.rows);
             }
             catch (error) {
                 console.log(error);
