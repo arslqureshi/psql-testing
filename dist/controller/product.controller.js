@@ -113,14 +113,25 @@ const ProductController = {
     getFeedFromLocation(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                let products = [];
                 const userLocation = {
-                    lat: req.params.lat,
-                    lng: req.params.lng
+                    lat: parseFloat(req.params.lat),
+                    lng: parseFloat(req.params.lng)
                 };
+                console.log(userLocation);
                 const query = yield db_1.default.query(`SELECT product.price, name, product.id, description, category, likes, sellerId, image, warehouseId, username, warehouses.lat, warehouses.lng FROM product
                 JOIN warehouses on warehouses.id = product.warehouseId
                 JOIN person ON person.id = product.sellerId ORDER BY product.id DESC`);
-                console.log(query.rows);
+                yield query.rows.forEach(element => {
+                    var ky = 40000 / 360;
+                    var kx = Math.cos(Math.PI * userLocation.lat / 180.0) * ky;
+                    var dx = Math.abs(userLocation.lng - parseFloat(element.lng)) * kx;
+                    var dy = Math.abs(userLocation.lat - parseFloat(element.lat)) * ky;
+                    if (Math.sqrt(dx * dx + dy * dy) <= 5) {
+                        products.push(element);
+                    }
+                });
+                res.status(200).send(products);
             }
             catch (error) {
                 console.log(error);

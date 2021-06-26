@@ -17,6 +17,9 @@ const SocketController = {
        if(to != -1) {
            io.to(to).emit('newMessage', query.rows[0]);
        }
+    },
+    async notifyDrivers(io, drivers) {
+
     }
 }
 

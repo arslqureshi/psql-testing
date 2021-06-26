@@ -56,6 +56,12 @@ CREATE TABLE orders(
     totalPrice VARCHAR(225),
     buyerId integer,
     driverId integer,
+    orderType VARCHAR(225),
+    lat VARCHAR(225),
+    lng VARCHAR(225),
+    address VARCHAR(225),
+    city VARCHAR(225),
+    trackingNumber VARCHAR(225),
     PRIMARY KEY(id),
     CONSTRAINT buyerId
     	FOREIGN KEY(buyerId) 

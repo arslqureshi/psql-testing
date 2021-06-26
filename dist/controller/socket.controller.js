@@ -24,6 +24,10 @@ const SocketController = {
                 io.to(to).emit('newMessage', query.rows[0]);
             }
         });
+    },
+    notifyDrivers(io, drivers) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
     }
 };
 exports.default = SocketController;

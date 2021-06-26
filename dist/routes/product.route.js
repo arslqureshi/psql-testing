@@ -12,5 +12,6 @@ ProductRouter.get('/:sellerId', product_controller_1.default.getBySellerId);
 ProductRouter.get('/singleProduct/:productId', product_controller_1.default.getProductById);
 ProductRouter.put('/', product_controller_1.default.edit);
 ProductRouter.delete('/:productId', product_controller_1.default.deleteById);
+ProductRouter.get('/getFeedFromLocation/:lat/:lng', product_controller_1.default.getFeedFromLocation);
 exports.default = ProductRouter;
 //# sourceMappingURL=product.route.js.map
