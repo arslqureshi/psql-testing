@@ -45,14 +45,14 @@ const ProductController =  {
     async deleteById(req, res) {
         try {
             const id = req.params.productId;
-            const data = await pool.query(
-                'SELECT stripeProductId FROM product WHERE id=$1',
-                [id]
-            );
-            console.log(data.rows[0].stripeproductid);
-            const deleted = await StripeController.deleteProduct(
-                data.rows[0].stripeproductid
-            );
+            // const data = await pool.query(
+            //     'SELECT stripeProductId FROM product WHERE id=$1',
+            //     [id]
+            // );
+            // console.log(data.rows[0].stripeproductid);
+            // const deleted = await StripeController.deleteProduct(
+            //     data.rows[0].stripeproductid
+            // );
             const query = await pool.query(
                 'DELETE FROM product WHERE id=$1',
                 [id]
