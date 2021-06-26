@@ -25,8 +25,13 @@ const SocketController = {
             }
         });
     },
-    notifyDrivers(io, drivers) {
+    notifyDrivers(io, drivers, locations) {
         return __awaiter(this, void 0, void 0, function* () {
+            const query = yield db_1.default.query(`insert into driver_request`);
+            drivers.forEach(driver => {
+                console.log(driver.socketId);
+                io.to(driver.socketId).emit('requestDriver', locations);
+            });
         });
     }
 };

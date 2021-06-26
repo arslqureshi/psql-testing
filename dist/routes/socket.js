@@ -57,14 +57,10 @@ function initSocket(io) {
         });
         //Chat End
         //Order Start
-        socket.on('newDriverRequest', (data) => __awaiter(this, void 0, void 0, function* () {
+        socket.on('newDriverRequest', (locations) => __awaiter(this, void 0, void 0, function* () {
             const drivers = sockets.filter(soc => soc.role == "driver");
             console.log(drivers);
-            // SocketController.notifyDrivers(io, drivers);
-            drivers.forEach(driver => {
-                console.log(driver.socketId);
-                io.to(driver.socketId).emit('requestDriver', { data: "New Request" });
-            });
+            socket_controller_1.default.notifyDrivers(io, drivers, locations);
         }));
         socket.on('disconnect', () => {
             console.log(socket.id);

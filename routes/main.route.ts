@@ -5,6 +5,7 @@ import OrderRouter from './order.route';
 import WarehouseRouter from './warehouse.route';
 import ChatRouter from './chat.route';
 import ContractRouter from './contract.route';
+import DriverRouter from './driver.route';
 
 
 import authGuard from './authGuard.route';
@@ -23,5 +24,6 @@ router.use('/product', ProductRouter);
 router.use('/warehouse', WarehouseRouter);
 router.use('/chat', ChatRouter);
 router.use('/contract', ContractRouter);
+router.use('/driver', DriverRouter);
 
 export default router;

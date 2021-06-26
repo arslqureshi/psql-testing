@@ -22,7 +22,6 @@ export default function initSocket(io) {
             lat: data.lat,
             lng: data.lng
           })
-          console.log(sockets)
         } else {
           sockets[check] = {
             socketId: socket.id,
@@ -31,7 +30,6 @@ export default function initSocket(io) {
             lat: data.lat,
             lng: data.lng
           }
-          console.log(sockets)
         }
       })
       // 2 way handshake End
@@ -49,15 +47,12 @@ export default function initSocket(io) {
       //Chat End
 
       //Order Start
-      socket.on('newDriverRequest',async (data) => {
+      socket.on('newDriverRequest',async (request) => {
         const drivers = sockets.filter(soc => soc.role == "driver");
-        console.log(drivers);
-        // SocketController.notifyDrivers(io, drivers);
-        drivers.forEach(driver => {
-          console.log(driver.socketId)
-          io.to(driver.socketId).emit('requestDriver', {data: "New Request"});
-        })
+        console.log('New Diver Req');
+        SocketController.notifyDrivers(io, drivers, request);
       })
+      //Order End
 
       socket.on('disconnect', () => {
         console.log(socket.id);

@@ -55,9 +55,14 @@ const ProductController = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = req.params.productId;
-                const data = yield db_1.default.query('SELECT stripeProductId FROM product WHERE id=$1', [id]);
-                console.log(data.rows[0].stripeproductid);
-                const deleted = yield stripe_controller_1.default.deleteProduct(data.rows[0].stripeproductid);
+                // const data = await pool.query(
+                //     'SELECT stripeProductId FROM product WHERE id=$1',
+                //     [id]
+                // );
+                // console.log(data.rows[0].stripeproductid);
+                // const deleted = await StripeController.deleteProduct(
+                //     data.rows[0].stripeproductid
+                // );
                 const query = yield db_1.default.query('DELETE FROM product WHERE id=$1', [id]);
                 res.send(query);
             }

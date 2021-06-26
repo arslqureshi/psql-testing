@@ -178,3 +178,24 @@ CREATE TABLE warehouse_contract(
         FOREIGN KEY(sellerId)
             REFERENCES person(id)
 )
+
+CREATE TABLE driver_request(
+    id serial NOT NULL,
+    address VARCHAR(225),
+    city VARCHAR(225),
+    lat VARCHAR(225),
+    lng VARCHAR(225),
+    status VARCHAR(225),
+    PRIMARY KEY(id)
+)
+
+CREATE TABLE request_locations(
+    id serial NOT NULL,
+    lat VARCHAR(225),
+    lng VARCHAR(225),
+    requestId integer,
+    PRIMARY KEY(id),
+    CONSTRAINT requestId
+        FOREIGN KEY(requestId)
+            REFERENCES driver_request(id)
+)
