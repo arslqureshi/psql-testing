@@ -25,12 +25,25 @@ const SocketController = {
             }
         });
     },
-    notifyDrivers(io, drivers, locations) {
+    notifyDrivers(io, drivers, request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = yield db_1.default.query(`insert into driver_request`);
-            drivers.forEach(driver => {
-                console.log(driver.socketId);
-                io.to(driver.socketId).emit('requestDriver', locations);
+            console.log(request);
+            const locations = request.locations;
+            const buyerAddress = request.buyerAddress;
+            const query = yield db_1.default.query(`insert into driver_request(address, city, lat, lng, status) 
+            values($1,$2,$3,$4,$5) RETURNING *`, [buyerAddress.address, buyerAddress.city, buyerAddress.lat, buyerAddress.lng, 'pending']);
+            locations.forEach((location) => __awaiter(this, void 0, void 0, function* () {
+                const query1 = yield db_1.default.query(`insert into request_locations(lat, lng, requestId)
+              values($1, $2, $3)`, [location.lat, location.lng, query.rows[0].id]);
+            }));
+            yield drivers.forEach(driver => {
+                var ky = 40000 / 360;
+                var kx = Math.cos(Math.PI * buyerAddress.lat / 180.0) * ky;
+                var dx = Math.abs(buyerAddress.lng - parseFloat(driver.lng)) * kx;
+                var dy = Math.abs(buyerAddress.lat - parseFloat(driver.lat)) * ky;
+                if (Math.sqrt(dx * dx + dy * dy) <= 5) {
+                    io.to(driver.socketId).emit('requestDriver', query.rows[0]);
+                }
             });
         });
     }

@@ -30,7 +30,6 @@ function initSocket(io) {
                     lat: data.lat,
                     lng: data.lng
                 });
-                console.log(sockets);
             }
             else {
                 sockets[check] = {
@@ -40,7 +39,6 @@ function initSocket(io) {
                     lat: data.lat,
                     lng: data.lng
                 };
-                console.log(sockets);
             }
         });
         // 2 way handshake End
@@ -57,11 +55,12 @@ function initSocket(io) {
         });
         //Chat End
         //Order Start
-        socket.on('newDriverRequest', (locations) => __awaiter(this, void 0, void 0, function* () {
+        socket.on('newDriverRequest', (request) => __awaiter(this, void 0, void 0, function* () {
             const drivers = sockets.filter(soc => soc.role == "driver");
-            console.log(drivers);
-            socket_controller_1.default.notifyDrivers(io, drivers, locations);
+            console.log('New Diver Req');
+            socket_controller_1.default.notifyDrivers(io, drivers, request);
         }));
+        //Order End
         socket.on('disconnect', () => {
             console.log(socket.id);
             const index = sockets.findIndex(soc => soc.socketId == socket.id);

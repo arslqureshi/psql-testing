@@ -21,6 +21,21 @@ const DriverController = {
         }catch(error){
             console.log(error.message)
         }
+    },
+    async getRequestLocations(req, res) {
+        try {
+            const {id} = req.params;
+            const query = await pool.query(
+                `select request_locations.id as id, driver_request.lat as lat, driver_request.lng as lng, request_locations.lat as reqLat, request_locations.lng as reqLng, driver_request.status
+                 from driver_request 
+                 join request_locations on driver_request.id = request_locations.requestId
+                 where driver_request.id = $1`,
+                 [id]
+            );
+            res.status(200).send(query.rows);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 }
 

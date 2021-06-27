@@ -10,6 +10,7 @@ const order_route_1 = __importDefault(require("./order.route"));
 const warehouse_route_1 = __importDefault(require("./warehouse.route"));
 const chat_route_1 = __importDefault(require("./chat.route"));
 const contract_route_1 = __importDefault(require("./contract.route"));
+const driver_route_1 = __importDefault(require("./driver.route"));
 const router = express_1.default.Router();
 router.get('/', (req, res) => {
     // emailController.sendmail("testing", "Testing email", "arslq7@gmail.com");
@@ -21,5 +22,6 @@ router.use('/product', product_route_1.default);
 router.use('/warehouse', warehouse_route_1.default);
 router.use('/chat', chat_route_1.default);
 router.use('/contract', contract_route_1.default);
+router.use('/driver', driver_route_1.default);
 exports.default = router;
 //# sourceMappingURL=main.route.js.map
