@@ -47,6 +47,7 @@ const OrderController = {
                  allOrders.push(query.rows[i]);
             }
             res.status(200).send(allOrders);
+
         } catch(error) {
             console.log(error);
         }
