@@ -8,7 +8,7 @@ export default function initSocket(io) {
 
       socket.emit('function Name')
 
-      console.log('socket connected... id: ' + socket.id);
+      // console.log('socket connected... id: ' + socket.id);
       // 2 way handshake Start
       io.to(socket.id).emit('sendSocketIdAndRequestUserId', socket.id);   //get user id and send socket.id to store on both ends
       

@@ -17,7 +17,7 @@ let sockets = [];
 function initSocket(io) {
     io.on("connection", (socket) => {
         socket.emit('function Name');
-        console.log('socket connected... id: ' + socket.id);
+        // console.log('socket connected... id: ' + socket.id);
         // 2 way handshake Start
         io.to(socket.id).emit('sendSocketIdAndRequestUserId', socket.id); //get user id and send socket.id to store on both ends
         socket.on('setUserId', (data) => {

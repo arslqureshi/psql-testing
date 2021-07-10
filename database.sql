@@ -25,6 +25,7 @@ CREATE TABLE product (
     stripePriceId VARCHAR(225),
 	sellerId integer,
     warehouseId integer,
+    quantity integer,
     PRIMARY KEY (id),
 	CONSTRAINT sellerId
     	FOREIGN KEY(sellerId) 
@@ -57,6 +58,7 @@ CREATE TABLE orders(
     buyerId integer,
     driverId integer,
     orderType VARCHAR(225),
+    status VARCHAR(225),
     lat VARCHAR(225),
     lng VARCHAR(225),
     address VARCHAR(225),

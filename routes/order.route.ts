@@ -2,8 +2,11 @@ import Express from 'express';
 import OrderController from '../controller/order.controller';
 
 
-let OderRouter = Express.Router();
+let OrderRouter = Express.Router();
 
-OderRouter.post('/add', OrderController.add);
+OrderRouter.post('/add', OrderController.add);
+OrderRouter.get('/getAllOrders/:userId', OrderController.getAllOrders);
+OrderRouter.put('/updateOrderStatus', OrderController.updateOrderStatus);
+OrderRouter.put('/addTrackingNumber', OrderController.addTrackingNumber);
 
-export default OderRouter;
+export default OrderRouter;
